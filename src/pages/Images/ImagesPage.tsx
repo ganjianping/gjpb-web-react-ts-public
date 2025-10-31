@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getImages } from '../../shared/data/publicApi'
 import type { MediaItem } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
-import { ImageCard } from '../../shared/components/ImageCard'
+import { ImageCard } from './ImageCard'
 import { Pagination } from '../../shared/ui/Pagination'
 
 const ITEMS_PER_PAGE = 60

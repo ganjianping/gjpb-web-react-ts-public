@@ -1,4 +1,4 @@
-import type { Website } from '../data/types'
+import type { Website } from '../../shared/data/types'
 
 interface WebsiteCardProps {
   website: Website

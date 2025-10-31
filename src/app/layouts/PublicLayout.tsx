@@ -41,7 +41,6 @@ export const PublicLayout = () => {
   const { language, setSearchQuery, searchQuery } = useUIContext()
 
   const appName = getValue('app_name') ?? 'GJP Blog System'
-  const appDescription = getValue('app_description') ?? 'A modern blog system'
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })

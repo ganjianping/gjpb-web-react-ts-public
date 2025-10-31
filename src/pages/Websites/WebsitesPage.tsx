@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getWebsites } from '../../shared/data/publicApi'
 import type { Website } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
-import { WebsiteCard } from '../../shared/components/WebsiteCard'
+import { WebsiteCard } from './WebsiteCard'
 import { Pagination } from '../../shared/ui/Pagination'
 
 const ITEMS_PER_PAGE = 60

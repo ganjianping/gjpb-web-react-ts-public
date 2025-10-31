@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getArticles } from '../../shared/data/publicApi'
 import type { ArticleSummary } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
-import { ArticleCard } from '../../shared/components/ArticleCard'
+import { ArticleCard } from './ArticleCard'
 import { Pagination } from '../../shared/ui/Pagination'
 
 const ITEMS_PER_PAGE = 60

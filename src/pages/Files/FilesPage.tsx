@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getFiles } from '../../shared/data/publicApi'
 import type { FileItem } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
-import { FileCard } from '../../shared/components/FileCard'
+import { FileCard } from './FileCard'
 import { Pagination } from '../../shared/ui/Pagination'
 
 const ITEMS_PER_PAGE = 60

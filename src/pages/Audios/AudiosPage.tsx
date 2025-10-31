@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getAudios } from '../../shared/data/publicApi'
 import type { MediaItem } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
-import { AudioCard } from '../../shared/components/AudioCard'
+import { AudioCard } from './AudioCard'
 import { Pagination } from '../../shared/ui/Pagination'
 
 const ITEMS_PER_PAGE = 60

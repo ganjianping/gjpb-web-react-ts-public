@@ -1,4 +1,4 @@
-import type { ArticleSummary } from '../data/types'
+import type { ArticleSummary } from '../../shared/data/types'
 
 interface ArticleCardProps {
   article: ArticleSummary

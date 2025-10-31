@@ -1,4 +1,4 @@
-import type { FileItem } from '../data/types'
+import type { FileItem } from '../../shared/data/types'
 
 interface FileCardProps {
   item: FileItem

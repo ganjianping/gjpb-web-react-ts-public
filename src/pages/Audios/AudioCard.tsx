@@ -1,4 +1,4 @@
-import type { MediaItem } from '../data/types'
+import type { MediaItem } from '../../shared/data/types'
 
 interface AudioCardProps {
   item: MediaItem

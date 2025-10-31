@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getVideos } from '../../shared/data/publicApi'
 import type { MediaItem } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
-import { VideoCard } from '../../shared/components/VideoCard'
+import { VideoCard } from './VideoCard'
 import { Pagination } from '../../shared/ui/Pagination'
 
 const ITEMS_PER_PAGE = 60
