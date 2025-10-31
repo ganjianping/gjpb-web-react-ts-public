@@ -1,0 +1,83 @@
+import type {
+  ApiListResponse,
+  ApiPagedResponse,
+  AppSetting,
+  ArticleDetail,
+  ArticleSummary,
+  FileItem,
+  MediaItem,
+  Website,
+} from './types'
+
+const DEV_DEFAULT_BASE_URL = '/api/v1/public/'
+const PROD_DEFAULT_BASE_URL = 'https://www.ganjianping.com/api/v1/public/'
+
+const fallbackBaseUrl = import.meta.env.DEV ? DEV_DEFAULT_BASE_URL : PROD_DEFAULT_BASE_URL
+
+const configuredBaseUrl = (import.meta.env.VITE_PUBLIC_API_BASE_URL as string | undefined) ?? fallbackBaseUrl
+
+const API_BASE_URL = configuredBaseUrl.endsWith('/') ? configuredBaseUrl : `${configuredBaseUrl}/`
+
+const buildUrl = (path: string) => {
+  const normalizedPath = path.startsWith('/') ? path.slice(1) : path
+  return `${API_BASE_URL}${normalizedPath}`
+}
+
+const createUrl = (path: string, searchParams?: Record<string, string | number | undefined>): string => {
+  const baseUrl = buildUrl(path)
+
+  if (!searchParams) {
+    return baseUrl
+  }
+
+  const params = new URLSearchParams()
+  Object.entries(searchParams).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      params.set(key, String(value))
+    }
+  })
+
+  const queryString = params.toString()
+  return queryString ? `${baseUrl}?${queryString}` : baseUrl
+}
+
+const fetchJson = async <TResponse>(input: string, init?: RequestInit): Promise<TResponse> => {
+  const response = await fetch(input, {
+    ...init,
+    headers: {
+      'Accept': 'application/json',
+      ...(init?.headers ?? {}),
+    },
+  })
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => 'Unknown error')
+    throw new Error(`Request failed with status ${response.status}: ${errorText}`)
+  }
+
+  return (await response.json()) as TResponse
+}
+
+export const getAppSettings = () =>
+  fetchJson<ApiListResponse<AppSetting[]>>(createUrl('app-settings'))
+
+export const getWebsites = (page = 0, size = 60) =>
+  fetchJson<ApiPagedResponse<Website>>(createUrl('cms/websites', { page, size }))
+
+export const getArticles = (page = 0, size = 60) =>
+  fetchJson<ApiPagedResponse<ArticleSummary>>(createUrl('cms/articles', { page, size }))
+
+export const getArticleById = (id: string) =>
+  fetchJson<ApiListResponse<ArticleDetail>>(createUrl(`cms/articles/${id}`))
+
+export const getImages = (page = 0, size = 60) =>
+  fetchJson<ApiPagedResponse<MediaItem>>(createUrl('cms/images', { page, size }))
+
+export const getVideos = (page = 0, size = 60) =>
+  fetchJson<ApiPagedResponse<MediaItem>>(createUrl('cms/videos', { page, size }))
+
+export const getAudios = (page = 0, size = 60) =>
+  fetchJson<ApiPagedResponse<MediaItem>>(createUrl('cms/audios', { page, size }))
+
+export const getFiles = (page = 0, size = 60) =>
+  fetchJson<ApiPagedResponse<FileItem>>(createUrl('cms/files', { page, size }))

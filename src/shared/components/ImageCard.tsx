@@ -1,0 +1,48 @@
+import type { MediaItem } from '../data/types'
+
+interface ImageCardProps {
+  item: MediaItem
+}
+
+const getTagList = (tags: string) =>
+  tags
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean)
+
+export const ImageCard = ({ item }: ImageCardProps) => {
+  const tagList = getTagList(item.tags)
+  const imageSource = item.thumbnailUrl ?? item.url
+  const altText = item.altText ?? item.name ?? 'Image'
+
+  return (
+    <figure className="card image-card">
+      <img src={imageSource} alt={altText} loading="lazy" className="image-card__image" />
+      <figcaption className="image-card__caption">
+        <div className="image-card__title">{item.name ?? item.title ?? 'Untitled image'}</div>
+        <div className="image-card__tags">
+          {tagList.map((tag) => (
+            <span key={tag} className="tag">
+              {tag}
+            </span>
+          ))}
+        </div>
+        <div className="image-card__actions">
+          <a className="button button--text" href={item.url} target="_blank" rel="noopener noreferrer">
+            Preview
+          </a>
+          {item.originalUrl ? (
+            <a
+              className="button button--text"
+              href={item.originalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Source
+            </a>
+          ) : null}
+        </div>
+      </figcaption>
+    </figure>
+  )
+}
