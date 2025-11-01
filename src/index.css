@@ -1018,11 +1018,11 @@ img {
   }
 
   .website-card__title {
-    max-width: calc(100% - 62px);
+    max-width: calc(100% - 68px);
   }
 
   .website-card__tags {
-    max-width: calc(100% - 62px);
+    max-width: calc(100% - 68px);
   }
 }
 
