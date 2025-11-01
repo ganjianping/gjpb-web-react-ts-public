@@ -1,4 +1,5 @@
 import { type ChangeEvent, useEffect, useMemo, useRef, useState } from 'react'
+import './websites.css'
 import { getWebsites } from '../../shared/data/publicApi'
 import type { Website } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
