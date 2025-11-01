@@ -1,4 +1,5 @@
 import type { Website } from '../../shared/data/types'
+import { useT } from '../../shared/i18n'
 
 interface WebsiteCardProps {
   website: Website
@@ -11,6 +12,7 @@ const normalizeTags = (tags: string) =>
     .filter(Boolean)
 
 export const WebsiteCard = ({ website }: WebsiteCardProps) => {
+  const t = useT()
   const tagList = normalizeTags(website.tags)
 
   return (
@@ -47,9 +49,9 @@ export const WebsiteCard = ({ website }: WebsiteCardProps) => {
           href={website.url}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`Visit ${website.name}`}
+          aria-label={`${t('website.visit')} ${website.name}`}
         >
-          Visit
+          {t('website.visit')}
         </a>
       </div>
     </article>

@@ -1,4 +1,5 @@
 import type { ArticleSummary } from '../../shared/data/types'
+import { useT } from '../../shared/i18n'
 
 interface ArticleCardProps {
   article: ArticleSummary
@@ -11,6 +12,7 @@ const getTagList = (tags: string) =>
     .filter(Boolean)
 
 export const ArticleCard = ({ article }: ArticleCardProps) => {
+  const t = useT()
   const tagList = getTagList(article.tags)
 
   return (
@@ -37,13 +39,8 @@ export const ArticleCard = ({ article }: ArticleCardProps) => {
             </span>
           ))}
         </div>
-        <a
-          className="button button--text"
-          href={article.originalUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {article.sourceName ? `Read on ${article.sourceName}` : 'Read more'}
+        <a className="button button--text" href={article.originalUrl} target="_blank" rel="noopener noreferrer">
+          {article.sourceName ? t('article.read_on', { source: article.sourceName }) : t('article.read_more')}
         </a>
       </div>
     </article>

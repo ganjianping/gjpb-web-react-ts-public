@@ -58,6 +58,23 @@ const translations: Translations = {
 
   // Footer
   'footer.copy': { EN: '© {year} {company} · {appName} · v{version}', ZH: '© {year} {company} · {appName} · 版本 {version}' },
+
+  // Card actions & placeholders
+  'website.visit': { EN: 'Visit', ZH: '访问' },
+  'file.download': { EN: 'Download', ZH: '下载' },
+  'common.source': { EN: 'Source', ZH: '来源' },
+  'video.watch': { EN: 'Watch', ZH: '观看' },
+  'image.preview': { EN: 'Preview', ZH: '预览' },
+  'article.read_more': { EN: 'Read more', ZH: '阅读全文' },
+  'article.read_on': { EN: 'Read on {source}', ZH: '在 {source} 阅读' },
+
+  // Untitled / placeholder labels
+  'untitled.video': { EN: 'Untitled video', ZH: '未命名视频' },
+  'untitled.audio': { EN: 'Untitled audio', ZH: '未命名音频' },
+  'untitled.image': { EN: 'Untitled image', ZH: '未命名图片' },
+  'placeholder.video': { EN: 'Video', ZH: '视频' },
+  'placeholder.audio': { EN: 'Audio', ZH: '音频' },
+  'placeholder.image': { EN: 'Image', ZH: '图片' },
 }
 
 export const useT = () => {

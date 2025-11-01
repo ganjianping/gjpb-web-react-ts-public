@@ -44,7 +44,7 @@ export const ArticlesPage = () => {
         const response = await getArticles(0, 200)
         setItems(response.data.content)
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Failed to load articles'
+  const message = err instanceof Error ? err.message : t('failed_to_load')
         setError(message)
       } finally {
         setLoading(false)

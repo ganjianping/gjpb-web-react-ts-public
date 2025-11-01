@@ -46,7 +46,7 @@ export const WebsitesPage = () => {
         const response = await getWebsites(0, 500)
         setItems(response.data.content)
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Failed to load websites'
+  const message = err instanceof Error ? err.message : t('failed_to_load')
         setError(message)
       } finally {
         setLoading(false)

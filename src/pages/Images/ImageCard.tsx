@@ -1,4 +1,5 @@
 import type { MediaItem } from '../../shared/data/types'
+import { useT } from '../../shared/i18n'
 
 interface ImageCardProps {
   item: MediaItem
@@ -11,9 +12,10 @@ const getTagList = (tags: string) =>
     .filter(Boolean)
 
 export const ImageCard = ({ item }: ImageCardProps) => {
+  const t = useT()
   const tagList = getTagList(item.tags)
   const imageSource = item.thumbnailUrl ?? item.url
-  const altText = item.altText ?? item.name ?? 'Image'
+  const altText = item.altText ?? item.name ?? t('placeholder.image')
 
   return (
     <figure className="card image-card">
@@ -29,16 +31,11 @@ export const ImageCard = ({ item }: ImageCardProps) => {
         </div>
         <div className="image-card__actions">
           <a className="button button--text" href={item.url} target="_blank" rel="noopener noreferrer">
-            Preview
+            {t('image.preview')}
           </a>
           {item.originalUrl ? (
-            <a
-              className="button button--text"
-              href={item.originalUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Source
+            <a className="button button--text" href={item.originalUrl} target="_blank" rel="noopener noreferrer">
+              {t('common.source')}
             </a>
           ) : null}
         </div>

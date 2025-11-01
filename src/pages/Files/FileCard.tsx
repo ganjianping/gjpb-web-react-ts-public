@@ -1,4 +1,5 @@
 import type { FileItem } from '../../shared/data/types'
+import { useT } from '../../shared/i18n'
 
 interface FileCardProps {
   item: FileItem
@@ -11,6 +12,7 @@ const splitTags = (tags: string) =>
     .filter(Boolean)
 
 export const FileCard = ({ item }: FileCardProps) => {
+  const t = useT()
   const tagList = splitTags(item.tags)
 
   return (
@@ -28,11 +30,11 @@ export const FileCard = ({ item }: FileCardProps) => {
       </div>
       <div className="file-card__footer">
         <a className="button button--primary" href={item.url} target="_blank" rel="noopener noreferrer">
-          Download
+          {t('file.download')}
         </a>
         {item.originalUrl ? (
           <a className="button button--text" href={item.originalUrl} target="_blank" rel="noopener noreferrer">
-            Source
+            {t('common.source')}
           </a>
         ) : null}
       </div>

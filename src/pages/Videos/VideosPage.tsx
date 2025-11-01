@@ -43,7 +43,7 @@ export const VideosPage = () => {
         const response = await getVideos(0, 200)
         setItems(response.data.content)
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Failed to load videos'
+  const message = err instanceof Error ? err.message : t('failed_to_load')
         setError(message)
       } finally {
         setLoading(false)

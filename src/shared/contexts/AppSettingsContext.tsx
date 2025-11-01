@@ -10,6 +10,7 @@ import {
 import { getAppSettings } from '../data/publicApi'
 import type { AppSetting } from '../data/types'
 import { useUIContext, type LanguageCode } from './UIContext'
+import { useT } from '../i18n'
 
 interface AppSettingsContextValue {
   settings: AppSetting[]
@@ -25,6 +26,7 @@ const AppSettingsContext = createContext<AppSettingsContextValue | undefined>(un
 
 export const AppSettingsProvider = ({ children }: { children: ReactNode }) => {
   const { language } = useUIContext()
+  const t = useT()
   const [settings, setSettings] = useState<AppSetting[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
@@ -69,7 +71,7 @@ export const AppSettingsProvider = ({ children }: { children: ReactNode }) => {
         }
       }
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to load app settings'
+      const message = err instanceof Error ? err.message : t('failed_to_load')
       setError(message)
     } finally {
       setLoading(false)
@@ -161,7 +163,7 @@ export const AppSettingsProvider = ({ children }: { children: ReactNode }) => {
             // ignore
           }
         } catch (err) {
-          const message = err instanceof Error ? err.message : 'Failed to load app settings'
+          const message = err instanceof Error ? err.message : t('failed_to_load')
           setError(message)
         } finally {
           setLoading(false)
