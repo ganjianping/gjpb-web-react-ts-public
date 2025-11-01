@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getArticles } from '../../shared/data/publicApi'
 import type { ArticleSummary } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
+import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { ArticleCard } from './ArticleCard'
 import { Pagination } from '../../shared/ui/Pagination'
 
@@ -22,10 +23,12 @@ const matchesSearch = (article: ArticleSummary, search: string) => {
 
 export const ArticlesPage = () => {
   const { language, searchQuery } = useUIContext()
+  const { getTags } = useAppSettings()
   const [items, setItems] = useState<ArticleSummary[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
+  const sectionTags = getTags('article_tags')
 
   useEffect(() => {
     setCurrentPage(1)
@@ -78,6 +81,15 @@ export const ArticlesPage = () => {
         <p className="page__subtitle">
           {language === 'ZH' ? '阅读科技与人工智能领域的精选内容。' : 'Read curated content in tech and AI.'}
         </p>
+        {sectionTags.length > 0 ? (
+          <div className="page__tags">
+            {sectionTags.map((tag) => (
+              <span key={tag} className="tag">
+                {tag}
+              </span>
+            ))}
+          </div>
+        ) : null}
       </header>
       {loading ? (
         <div className="status status--loading">

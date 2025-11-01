@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getVideos } from '../../shared/data/publicApi'
 import type { MediaItem } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
+import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { VideoCard } from './VideoCard'
 import { Pagination } from '../../shared/ui/Pagination'
 
@@ -21,10 +22,12 @@ const matchesSearch = (item: MediaItem, search: string) => {
 
 export const VideosPage = () => {
   const { language, searchQuery } = useUIContext()
+  const { getTags } = useAppSettings()
   const [items, setItems] = useState<MediaItem[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
+  const sectionTags = getTags('video_tags')
 
   useEffect(() => {
     setCurrentPage(1)
@@ -77,6 +80,15 @@ export const VideosPage = () => {
         <p className="page__subtitle">
           {language === 'ZH' ? '观看科技、产品与创意视频。' : 'Watch curated videos about technology and innovation.'}
         </p>
+        {sectionTags.length > 0 ? (
+          <div className="page__tags">
+            {sectionTags.map((tag) => (
+              <span key={tag} className="tag">
+                {tag}
+              </span>
+            ))}
+          </div>
+        ) : null}
       </header>
       {loading ? (
         <div className="status status--loading">

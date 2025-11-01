@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getImages } from '../../shared/data/publicApi'
 import type { MediaItem } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
+import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { ImageCard } from './ImageCard'
 import { Pagination } from '../../shared/ui/Pagination'
 
@@ -20,10 +21,12 @@ const matchesSearch = (item: MediaItem, search: string) => {
 
 export const ImagesPage = () => {
   const { language, searchQuery } = useUIContext()
+  const { getTags } = useAppSettings()
   const [items, setItems] = useState<MediaItem[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
+  const sectionTags = getTags('image_tags')
 
   useEffect(() => {
     setCurrentPage(1)
@@ -76,6 +79,15 @@ export const ImagesPage = () => {
         <p className="page__subtitle">
           {language === 'ZH' ? '浏览高质量图像与创意视觉素材。' : 'Browse high-quality visuals and creative assets.'}
         </p>
+        {sectionTags.length > 0 ? (
+          <div className="page__tags">
+            {sectionTags.map((tag) => (
+              <span key={tag} className="tag">
+                {tag}
+              </span>
+            ))}
+          </div>
+        ) : null}
       </header>
       {loading ? (
         <div className="status status--loading">

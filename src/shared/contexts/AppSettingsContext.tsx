@@ -33,8 +33,41 @@ export const AppSettingsProvider = ({ children }: { children: ReactNode }) => {
     setLoading(true)
     setError(null)
     try {
-      const response = await getAppSettings()
-      setSettings(response.data)
+      // Try to load cached settings from localStorage first for instant availability
+      const cacheKey = 'gjpb_app_settings'
+      const fetchedFlag = 'gjpb_app_settings_fetched'
+
+      try {
+        const cached = localStorage.getItem(cacheKey)
+        if (cached) {
+          const parsed: AppSetting[] = JSON.parse(cached)
+          setSettings(parsed)
+        }
+      } catch (err) {
+        // JSON parse error or localStorage access error: ignore and continue to fetch
+        // eslint-disable-next-line no-console
+        console.warn('Failed to read cached app settings from localStorage', err)
+      }
+
+      // Call the API only once per page load (use sessionStorage to track this)
+      if (!sessionStorage.getItem(fetchedFlag)) {
+        const response = await getAppSettings()
+        setSettings(response.data)
+
+        try {
+          localStorage.setItem(cacheKey, JSON.stringify(response.data))
+        } catch (err) {
+          // Ignore storage write errors
+          // eslint-disable-next-line no-console
+          console.warn('Failed to write app settings to localStorage', err)
+        }
+
+        try {
+          sessionStorage.setItem(fetchedFlag, '1')
+        } catch {
+          // ignore
+        }
+      }
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to load app settings'
       setError(message)
@@ -92,6 +125,7 @@ export const AppSettingsProvider = ({ children }: { children: ReactNode }) => {
       }
 
       return value
+        .replace(/[“”]/g, '')
         .split(',')
         .map((tag) => tag.trim())
         .filter(Boolean)
@@ -107,7 +141,32 @@ export const AppSettingsProvider = ({ children }: { children: ReactNode }) => {
       getValue,
       getValues,
       getTags,
-      reload: loadSettings,
+      // reload should force a fresh fetch and update localStorage
+      reload: async () => {
+        setLoading(true)
+        setError(null)
+        try {
+          const response = await getAppSettings()
+          setSettings(response.data)
+          try {
+            localStorage.setItem('gjpb_app_settings', JSON.stringify(response.data))
+          } catch (err) {
+            // ignore
+            // eslint-disable-next-line no-console
+            console.warn('Failed to write app settings to localStorage', err)
+          }
+          try {
+            sessionStorage.setItem('gjpb_app_settings_fetched', '1')
+          } catch {
+            // ignore
+          }
+        } catch (err) {
+          const message = err instanceof Error ? err.message : 'Failed to load app settings'
+          setError(message)
+        } finally {
+          setLoading(false)
+        }
+      },
     }),
     [settings, loading, error, getValue, getValues, getTags, loadSettings],
   )

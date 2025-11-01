@@ -1,94 +1,108 @@
 import { useEffect } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { Footer } from '../../shared/components/Footer'
-import { SearchBar } from '../../shared/ui/SearchBar'
 import { LanguageToggle } from '../../shared/ui/LanguageToggle'
 import { ThemeToggle } from '../../shared/ui/ThemeToggle'
 import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { useUIContext } from '../../shared/contexts/UIContext'
 
-interface CategoryItem {
-  key: string
-  label: {
-    EN: string
-    ZH: string
-  }
-  query: string
-}
-
-const categoryItems: CategoryItem[] = [
-  { key: 'ai', label: { EN: 'AI', ZH: '人工智能' }, query: 'AI' },
-  { key: 'news', label: { EN: 'News', ZH: '新闻' }, query: 'News' },
-  { key: 'model', label: { EN: 'Model', ZH: '模型' }, query: 'Model' },
-  { key: 'search', label: { EN: 'Search', ZH: '搜索' }, query: 'Search' },
-  { key: 'travel', label: { EN: 'Travel', ZH: '旅游' }, query: 'Travel' },
-  { key: 'music', label: { EN: 'Music', ZH: '音乐' }, query: 'Music' },
-  { key: 'productivity', label: { EN: 'Productivity', ZH: '效率' }, query: 'Productivity' },
-]
-
 const sectionLinks = [
-  { path: '/public/websites', label: { EN: 'Websites', ZH: '网站' } },
-  { path: '/public/articles', label: { EN: 'Articles', ZH: '文章' } },
-  { path: '/public/images', label: { EN: 'Images', ZH: '图片' } },
-  { path: '/public/audios', label: { EN: 'Audios', ZH: '音频' } },
-  { path: '/public/videos', label: { EN: 'Videos', ZH: '视频' } },
-  { path: '/public/files', label: { EN: 'Files', ZH: '文件' } },
+  { path: '/public/websites', label: { EN: 'Websites', ZH: '网站' }, tagsKey: 'website_tags' },
+  { path: '/public/articles', label: { EN: 'Articles', ZH: '文章' }, tagsKey: 'article_tags' },
+  { path: '/public/images', label: { EN: 'Images', ZH: '图片' }, tagsKey: 'image_tags' },
+  { path: '/public/audios', label: { EN: 'Audios', ZH: '音频' }, tagsKey: 'audio_tags' },
+  { path: '/public/videos', label: { EN: 'Videos', ZH: '视频' }, tagsKey: 'video_tags' },
+  { path: '/public/files', label: { EN: 'Files', ZH: '文件' }, tagsKey: 'file_tags' },
 ]
 
 export const PublicLayout = () => {
   const location = useLocation()
-  const { getValue } = useAppSettings()
-  const { language, setSearchQuery, searchQuery } = useUIContext()
+  const { getTags } = useAppSettings()
+  const { language } = useUIContext()
 
-  const appName = getValue('app_name') ?? 'GJP Blog System'
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [location.pathname])
 
-  const handleCategoryClick = (query: string) => {
-    setSearchQuery(query)
+  const renderIcon = (key: string) => {
+    switch (key) {
+      case 'website_tags':
+        return (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <circle cx="12" cy="12" r="10" />
+            <path d="M2 12h20M12 2a15 15 0 010 20" />
+          </svg>
+        )
+      case 'article_tags':
+        return (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M21 15V6a2 2 0 00-2-2H7L3 6v9a2 2 0 002 2h14a2 2 0 002-2z" />
+            <path d="M7 7h8M7 11h8" />
+          </svg>
+        )
+      case 'image_tags':
+        return (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <circle cx="8.5" cy="8.5" r="1.5" />
+            <path d="M21 15l-5-5L5 21" />
+          </svg>
+        )
+      case 'audio_tags':
+        return (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <rect x="4" y="4" width="16" height="16" rx="2" />
+            <path d="M9 9v6a3 3 0 006 0V9" />
+          </svg>
+        )
+      case 'video_tags':
+        return (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <rect x="2" y="5" width="15" height="14" rx="2" />
+            <path d="M23 7l-6 5 6 5V7z" />
+          </svg>
+        )
+      case 'file_tags':
+        return (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+            <path d="M14 2v6h6" />
+          </svg>
+        )
+      default:
+        return null
+    }
   }
 
   return (
     <div className="layout">
       <header className="site-header">
-        <div className="site-header__top">
-          <NavLink to="/public/websites" className="site-logo">
-            <img src="/favicon.ico" alt={appName} className="site-logo__img" />
-          </NavLink>
-          <div className="site-header__controls">
-            <SearchBar />
-            <ThemeToggle />
-            <LanguageToggle />
-          </div>
-        </div>
-        <nav className="site-header__categories" aria-label="Category navigation">
-          {categoryItems.map((item) => {
-            const isActive = searchQuery.toLowerCase() === item.query.toLowerCase()
+        <NavLink to="/public/websites" className="site-logo">
+          <img src="/favicon.ico" alt="Site logo" className="site-logo__img" />
+        </NavLink>
+        <nav className="site-header__sections" aria-label="Main navigation">
+          {sectionLinks.map((link) => {
+            const tags = getTags(link.tagsKey)
             return (
-              <button
-                key={item.key}
-                type="button"
-                className={`category-chip${isActive ? ' category-chip--active' : ''}`}
-                onClick={() => handleCategoryClick(item.query)}
+              <NavLink
+                key={link.path}
+                to={link.path}
+                className={({ isActive }) => `section-link${isActive ? ' section-link--active' : ''}`}
+                title={tags.length > 0 ? tags.join(', ') : undefined}
               >
-                {item.label[language]}
-              </button>
+                <span className="section-link__icon" aria-hidden>
+                  {renderIcon(link.tagsKey)}
+                </span>
+                <span className="section-link__label">{link.label[language]}</span>
+              </NavLink>
             )
           })}
         </nav>
-        <nav className="site-header__sections" aria-label="Main navigation">
-          {sectionLinks.map((link) => (
-            <NavLink
-              key={link.path}
-              to={link.path}
-              className={({ isActive }) => `section-link${isActive ? ' section-link--active' : ''}`}
-            >
-              {link.label[language]}
-            </NavLink>
-          ))}
-        </nav>
+        <div className="site-header__actions">
+          <ThemeToggle />
+          <LanguageToggle />
+        </div>
       </header>
       <main className="layout__content">
         <Outlet />

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getAudios } from '../../shared/data/publicApi'
 import type { MediaItem } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
+import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { AudioCard } from './AudioCard'
 import { Pagination } from '../../shared/ui/Pagination'
 
@@ -21,10 +22,12 @@ const matchesSearch = (item: MediaItem, search: string) => {
 
 export const AudiosPage = () => {
   const { language, searchQuery } = useUIContext()
+  const { getTags } = useAppSettings()
   const [items, setItems] = useState<MediaItem[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
+  const sectionTags = getTags('audio_tags')
 
   useEffect(() => {
     setCurrentPage(1)
@@ -77,6 +80,15 @@ export const AudiosPage = () => {
         <p className="page__subtitle">
           {language === 'ZH' ? '播放精选的音乐与音频内容。' : 'Listen to curated music and audio content.'}
         </p>
+        {sectionTags.length > 0 ? (
+          <div className="page__tags">
+            {sectionTags.map((tag) => (
+              <span key={tag} className="tag">
+                {tag}
+              </span>
+            ))}
+          </div>
+        ) : null}
       </header>
       {loading ? (
         <div className="status status--loading">

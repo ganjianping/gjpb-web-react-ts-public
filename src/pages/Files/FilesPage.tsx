@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getFiles } from '../../shared/data/publicApi'
 import type { FileItem } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
+import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { FileCard } from './FileCard'
 import { Pagination } from '../../shared/ui/Pagination'
 
@@ -22,10 +23,12 @@ const matchesSearch = (item: FileItem, search: string) => {
 
 export const FilesPage = () => {
   const { language, searchQuery } = useUIContext()
+  const { getTags } = useAppSettings()
   const [items, setItems] = useState<FileItem[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
+  const sectionTags = getTags('file_tags')
 
   useEffect(() => {
     setCurrentPage(1)
@@ -78,6 +81,15 @@ export const FilesPage = () => {
         <p className="page__subtitle">
           {language === 'ZH' ? '下载文档、资料与精选资源。' : 'Download curated documents and resources.'}
         </p>
+        {sectionTags.length > 0 ? (
+          <div className="page__tags">
+            {sectionTags.map((tag) => (
+              <span key={tag} className="tag">
+                {tag}
+              </span>
+            ))}
+          </div>
+        ) : null}
       </header>
       {loading ? (
         <div className="status status--loading">
