@@ -1,19 +1,21 @@
 import { useMemo } from 'react'
 import { useAppSettings } from '../contexts/AppSettingsContext'
-import { useUIContext } from '../contexts/UIContext'
+import { useT } from '../i18n'
 
 export const Footer = () => {
   const { getValue } = useAppSettings()
-  const { language } = useUIContext()
+  const t = useT()
   const company = getValue('app_company') ?? 'GJP Technology'
   const appName = getValue('app_name') ?? 'GJP Blog System'
   const appVersion = getValue('app_version') ?? '1.0.0'
 
   const currentYear = useMemo(() => new Date().getFullYear(), [])
-  const copyLabel =
-    language === 'ZH'
-      ? `© ${currentYear} ${company} · ${appName} · 版本 ${appVersion}`
-      : `© ${currentYear} ${company} · ${appName} · v${appVersion}`
+  const copyLabel = t('footer.copy', {
+    year: currentYear,
+    company,
+    appName,
+    version: appVersion,
+  })
 
   return (
     <footer className="site-footer">

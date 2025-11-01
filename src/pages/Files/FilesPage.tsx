@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getFiles } from '../../shared/data/publicApi'
 import type { FileItem } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
+import { useT } from '../../shared/i18n'
 import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { FileCard } from './FileCard'
 import { Pagination } from '../../shared/ui/Pagination'
@@ -74,13 +75,13 @@ export const FilesPage = () => {
   const endIndex = startIndex + ITEMS_PER_PAGE
   const paginatedItems = filteredItems.slice(startIndex, endIndex)
 
+  const t = useT()
+
   return (
     <section className="page">
       <header className="page__header">
-        <h1 className="page__title">{language === 'ZH' ? '文件中心' : 'File Library'}</h1>
-        <p className="page__subtitle">
-          {language === 'ZH' ? '下载文档、资料与精选资源。' : 'Download curated documents and resources.'}
-        </p>
+        <h1 className="page__title">{t('files.title')}</h1>
+        <p className="page__subtitle">{t('files.subtitle')}</p>
         {sectionTags.length > 0 ? (
           <div className="page__tags">
             {sectionTags.map((tag) => (
@@ -93,12 +94,12 @@ export const FilesPage = () => {
       </header>
       {loading ? (
         <div className="status status--loading">
-          <span>{language === 'ZH' ? '正在加载...' : 'Loading...'}</span>
+          <span>{t('loading')}</span>
         </div>
       ) : null}
       {error ? (
         <div className="status status--error">
-          <span>{language === 'ZH' ? '加载失败' : 'Failed to load data'}</span>
+          <span>{t('failed_to_load')}</span>
           <span className="status__message">{error}</span>
         </div>
       ) : null}
@@ -111,7 +112,7 @@ export const FilesPage = () => {
           </div>
           {paginatedItems.length === 0 ? (
             <div className="status status--empty">
-              {language === 'ZH' ? '未找到匹配的文件。' : 'No files match your search.'}
+              {t('files.empty')}
             </div>
           ) : null}
           <Pagination currentPage={safePage} totalPages={totalPages} onPageChange={setCurrentPage} />

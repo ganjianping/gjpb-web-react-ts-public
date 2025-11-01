@@ -1,15 +1,11 @@
 import { useUIContext } from '../contexts/UIContext'
+import { useT } from '../i18n'
 
 export const ThemeToggle = () => {
-  const { theme, toggleTheme, language } = useUIContext()
+  const { theme, toggleTheme } = useUIContext()
+  const t = useT()
   const isDark = theme === 'dark'
-
-  let label = ''
-  if (isDark) {
-    label = language === 'ZH' ? '切换到日间' : 'Switch to light'
-  } else {
-    label = language === 'ZH' ? '切换到夜间' : 'Switch to dark'
-  }
+  const label = isDark ? t('toggle.theme.light') : t('toggle.theme.dark')
 
   return (
     <button

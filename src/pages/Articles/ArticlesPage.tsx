@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getArticles } from '../../shared/data/publicApi'
 import type { ArticleSummary } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
+import { useT } from '../../shared/i18n'
 import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { ArticleCard } from './ArticleCard'
 import { Pagination } from '../../shared/ui/Pagination'
@@ -74,13 +75,13 @@ export const ArticlesPage = () => {
   const endIndex = startIndex + ITEMS_PER_PAGE
   const paginatedItems = filteredItems.slice(startIndex, endIndex)
 
+  const t = useT()
+
   return (
     <section className="page">
       <header className="page__header">
-        <h1 className="page__title">{language === 'ZH' ? '文章精选' : 'Latest Articles'}</h1>
-        <p className="page__subtitle">
-          {language === 'ZH' ? '阅读科技与人工智能领域的精选内容。' : 'Read curated content in tech and AI.'}
-        </p>
+        <h1 className="page__title">{t('articles.title')}</h1>
+        <p className="page__subtitle">{t('articles.subtitle')}</p>
         {sectionTags.length > 0 ? (
           <div className="page__tags">
             {sectionTags.map((tag) => (
@@ -93,12 +94,12 @@ export const ArticlesPage = () => {
       </header>
       {loading ? (
         <div className="status status--loading">
-          <span>{language === 'ZH' ? '正在加载...' : 'Loading...'}</span>
+          <span>{t('loading')}</span>
         </div>
       ) : null}
       {error ? (
         <div className="status status--error">
-          <span>{language === 'ZH' ? '加载失败' : 'Failed to load data'}</span>
+          <span>{t('failed_to_load')}</span>
           <span className="status__message">{error}</span>
         </div>
       ) : null}
@@ -110,9 +111,7 @@ export const ArticlesPage = () => {
             ))}
           </div>
           {paginatedItems.length === 0 ? (
-            <div className="status status--empty">
-              {language === 'ZH' ? '未找到匹配的文章。' : 'No articles match your search.'}
-            </div>
+            <div className="status status--empty">{t('articles.empty')}</div>
           ) : null}
           <Pagination currentPage={safePage} totalPages={totalPages} onPageChange={setCurrentPage} />
         </>

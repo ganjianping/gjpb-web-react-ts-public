@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getImages } from '../../shared/data/publicApi'
 import type { MediaItem } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
+import { useT } from '../../shared/i18n'
 import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { ImageCard } from './ImageCard'
 import { Pagination } from '../../shared/ui/Pagination'
@@ -72,13 +73,13 @@ export const ImagesPage = () => {
   const endIndex = startIndex + ITEMS_PER_PAGE
   const paginatedItems = filteredItems.slice(startIndex, endIndex)
 
+  const t = useT()
+
   return (
     <section className="page">
       <header className="page__header">
-        <h1 className="page__title">{language === 'ZH' ? '图片库' : 'Image Gallery'}</h1>
-        <p className="page__subtitle">
-          {language === 'ZH' ? '浏览高质量图像与创意视觉素材。' : 'Browse high-quality visuals and creative assets.'}
-        </p>
+        <h1 className="page__title">{t('images.title')}</h1>
+        <p className="page__subtitle">{t('images.subtitle')}</p>
         {sectionTags.length > 0 ? (
           <div className="page__tags">
             {sectionTags.map((tag) => (
@@ -91,12 +92,12 @@ export const ImagesPage = () => {
       </header>
       {loading ? (
         <div className="status status--loading">
-          <span>{language === 'ZH' ? '正在加载...' : 'Loading...'}</span>
+          <span>{t('loading')}</span>
         </div>
       ) : null}
       {error ? (
         <div className="status status--error">
-          <span>{language === 'ZH' ? '加载失败' : 'Failed to load data'}</span>
+          <span>{t('failed_to_load')}</span>
           <span className="status__message">{error}</span>
         </div>
       ) : null}
@@ -107,11 +108,7 @@ export const ImagesPage = () => {
               <ImageCard key={item.id} item={item} />
             ))}
           </div>
-          {paginatedItems.length === 0 ? (
-            <div className="status status--empty">
-              {language === 'ZH' ? '未找到匹配的图片。' : 'No images match your search.'}
-            </div>
-          ) : null}
+          {paginatedItems.length === 0 ? <div className="status status--empty">{t('images.empty')}</div> : null}
           <Pagination currentPage={safePage} totalPages={totalPages} onPageChange={setCurrentPage} />
         </>
       ) : null}

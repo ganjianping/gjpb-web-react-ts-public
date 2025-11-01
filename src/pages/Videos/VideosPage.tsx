@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getVideos } from '../../shared/data/publicApi'
 import type { MediaItem } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
+import { useT } from '../../shared/i18n'
 import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { VideoCard } from './VideoCard'
 import { Pagination } from '../../shared/ui/Pagination'
@@ -73,13 +74,13 @@ export const VideosPage = () => {
   const endIndex = startIndex + ITEMS_PER_PAGE
   const paginatedItems = filteredItems.slice(startIndex, endIndex)
 
+  const t = useT()
+
   return (
     <section className="page">
       <header className="page__header">
-        <h1 className="page__title">{language === 'ZH' ? '视频精选' : 'Video Gallery'}</h1>
-        <p className="page__subtitle">
-          {language === 'ZH' ? '观看科技、产品与创意视频。' : 'Watch curated videos about technology and innovation.'}
-        </p>
+        <h1 className="page__title">{t('videos.title')}</h1>
+        <p className="page__subtitle">{t('videos.subtitle')}</p>
         {sectionTags.length > 0 ? (
           <div className="page__tags">
             {sectionTags.map((tag) => (
@@ -92,12 +93,12 @@ export const VideosPage = () => {
       </header>
       {loading ? (
         <div className="status status--loading">
-          <span>{language === 'ZH' ? '正在加载...' : 'Loading...'}</span>
+          <span>{t('loading')}</span>
         </div>
       ) : null}
       {error ? (
         <div className="status status--error">
-          <span>{language === 'ZH' ? '加载失败' : 'Failed to load data'}</span>
+          <span>{t('failed_to_load')}</span>
           <span className="status__message">{error}</span>
         </div>
       ) : null}
@@ -108,11 +109,7 @@ export const VideosPage = () => {
               <VideoCard key={item.id} item={item} />
             ))}
           </div>
-          {paginatedItems.length === 0 ? (
-            <div className="status status--empty">
-              {language === 'ZH' ? '未找到匹配的视频。' : 'No videos match your search.'}
-            </div>
-          ) : null}
+          {paginatedItems.length === 0 ? <div className="status status--empty">{t('videos.empty')}</div> : null}
           <Pagination currentPage={safePage} totalPages={totalPages} onPageChange={setCurrentPage} />
         </>
       ) : null}

@@ -1,9 +1,11 @@
 import { useUIContext } from '../contexts/UIContext'
+import { useT } from '../i18n'
 
 export const LanguageToggle = () => {
   const { language, toggleLanguage } = useUIContext()
+  const t = useT()
 
-  const label = language === 'ZH' ? '切换为英文' : 'Switch to Chinese'
+  const label = t('toggle.language.toChinese')
 
   return (
     <button

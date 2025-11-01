@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getWebsites } from '../../shared/data/publicApi'
 import type { Website } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
+import { useT } from '../../shared/i18n'
 import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { WebsiteCard } from './WebsiteCard'
 import { Pagination } from '../../shared/ui/Pagination'
@@ -75,15 +76,13 @@ export const WebsitesPage = () => {
   const endIndex = startIndex + ITEMS_PER_PAGE
   const paginatedItems = filteredItems.slice(startIndex, endIndex)
 
+  const t = useT()
+
   return (
     <section className="page">
       <header className="page__header">
-        <h1 className="page__title">{language === 'ZH' ? '精选网站' : 'Featured Websites'}</h1>
-        <p className="page__subtitle">
-          {language === 'ZH'
-            ? '探索精选的在线工具、人工智能产品与创新平台。'
-            : 'Explore curated online tools, AI products, and innovative platforms.'}
-        </p>
+        <h1 className="page__title">{t('websites.title')}</h1>
+        <p className="page__subtitle">{t('websites.subtitle')}</p>
         {sectionTags.length > 0 ? (
           <div className="page__tags">
             {sectionTags.map((tag) => (
@@ -96,12 +95,12 @@ export const WebsitesPage = () => {
       </header>
       {loading ? (
         <div className="status status--loading">
-          <span>{language === 'ZH' ? '正在加载...' : 'Loading...'}</span>
+          <span>{t('loading')}</span>
         </div>
       ) : null}
       {error ? (
         <div className="status status--error">
-          <span>{language === 'ZH' ? '加载失败' : 'Failed to load data'}</span>
+          <span>{t('failed_to_load')}</span>
           <span className="status__message">{error}</span>
         </div>
       ) : null}
@@ -111,11 +110,7 @@ export const WebsitesPage = () => {
             {paginatedItems.map((item) => (
               <WebsiteCard key={item.id} website={item} />
             ))}
-            {paginatedItems.length === 0 ? (
-              <div className="status status--empty">
-                {language === 'ZH' ? '未找到匹配的站点。' : 'No websites match your search.'}
-              </div>
-            ) : null}
+            {paginatedItems.length === 0 ? <div className="status status--empty">{t('websites.empty')}</div> : null}
           </div>
           <Pagination currentPage={safePage} totalPages={totalPages} onPageChange={setCurrentPage} />
         </>
