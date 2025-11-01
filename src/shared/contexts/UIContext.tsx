@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState, useCallback, t
 
 export type ThemeMode = 'light' | 'dark'
 export type LanguageCode = 'EN' | 'ZH'
+export type ThemeColor = 'blue' | 'purple' | 'green' | 'orange' | 'red'
 
 interface UIContextValue {
   theme: ThemeMode
@@ -10,6 +11,8 @@ interface UIContextValue {
   language: LanguageCode
   setLanguage: (lang: LanguageCode) => void
   toggleLanguage: () => void
+  themeColor: ThemeColor
+  setThemeColor: (color: ThemeColor) => void
   searchQuery: string
   setSearchQuery: (query: string) => void
 }
@@ -18,6 +21,7 @@ const UIContext = createContext<UIContextValue | undefined>(undefined)
 
 const THEME_STORAGE_KEY = 'gjpb.theme'
 const LANGUAGE_STORAGE_KEY = 'gjpb.language'
+const THEME_COLOR_STORAGE_KEY = 'gjpb.themeColor'
 
 const getPreferredTheme = (): ThemeMode => {
   if (typeof window === 'undefined') {
@@ -46,9 +50,23 @@ const getPreferredLanguage = (): LanguageCode => {
   return browserLanguage.includes('zh') ? 'ZH' : 'EN'
 }
 
+const getPreferredThemeColor = (): ThemeColor => {
+  if (typeof window === 'undefined') {
+    return 'blue'
+  }
+
+  const stored = window.localStorage.getItem(THEME_COLOR_STORAGE_KEY) as ThemeColor | null
+  if (stored === 'blue' || stored === 'purple' || stored === 'green' || stored === 'orange' || stored === 'red') {
+    return stored
+  }
+
+  return 'blue'
+}
+
 export const UIProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setThemeState] = useState<ThemeMode>(() => getPreferredTheme())
   const [language, setLanguageState] = useState<LanguageCode>(() => getPreferredLanguage())
+  const [themeColor, setThemeColorState] = useState<ThemeColor>(() => getPreferredThemeColor())
   const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
@@ -71,6 +89,16 @@ export const UIProvider = ({ children }: { children: ReactNode }) => {
     window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language)
   }, [language])
 
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    window.localStorage.setItem(THEME_COLOR_STORAGE_KEY, themeColor)
+    const root = window.document.documentElement
+    root.dataset.themeColor = themeColor
+  }, [themeColor])
+
   const setTheme = useCallback((mode: ThemeMode) => {
     setThemeState(mode)
   }, [])
@@ -87,6 +115,10 @@ export const UIProvider = ({ children }: { children: ReactNode }) => {
     setLanguageState((prev) => (prev === 'EN' ? 'ZH' : 'EN'))
   }, [])
 
+  const setThemeColor = useCallback((color: ThemeColor) => {
+    setThemeColorState(color)
+  }, [])
+
   const value = useMemo<UIContextValue>(
     () => ({
       theme,
@@ -95,10 +127,12 @@ export const UIProvider = ({ children }: { children: ReactNode }) => {
       language,
       setLanguage,
       toggleLanguage,
+      themeColor,
+      setThemeColor,
       searchQuery,
       setSearchQuery,
     }),
-    [theme, language, searchQuery, setLanguage, setTheme, toggleLanguage, toggleTheme, setSearchQuery],
+    [theme, language, themeColor, searchQuery, setLanguage, setTheme, toggleLanguage, toggleTheme, setThemeColor, setSearchQuery],
   )
 
   return <UIContext.Provider value={value}>{children}</UIContext.Provider>

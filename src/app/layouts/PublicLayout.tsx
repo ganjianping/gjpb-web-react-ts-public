@@ -3,6 +3,7 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { Footer } from '../../shared/components/Footer'
 import { LanguageToggle } from '../../shared/ui/LanguageToggle'
 import { ThemeToggle } from '../../shared/ui/ThemeToggle'
+import { ThemeColorPicker } from '../../shared/ui/ThemeColorPicker'
 import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { useUIContext } from '../../shared/contexts/UIContext'
 
@@ -145,6 +146,7 @@ export const PublicLayout = () => {
 
         <div className="site-header__actions">
           <ThemeToggle />
+          <ThemeColorPicker />
           <LanguageToggle />
         </div>
       </header>
