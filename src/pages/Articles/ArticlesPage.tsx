@@ -6,6 +6,7 @@ import { useT } from '../../shared/i18n'
 import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { ArticleCard } from './ArticleCard'
 import { Pagination } from '../../shared/ui/Pagination'
+import './articles.css'
 
 const ITEMS_PER_PAGE = 60
 

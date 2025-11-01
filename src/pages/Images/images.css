@@ -1,0 +1,15 @@
+/* Images grid layout */
+.grid--images {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+/* Image card specific styles */
+.image-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.image-card__image {
+  border-radius: var(--radius-sm);
+}

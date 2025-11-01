@@ -1,0 +1,29 @@
+/* Files grid layout */
+.grid--files {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+/* File card specific styles */
+.file-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.file-card__title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.file-card__description {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.file-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}

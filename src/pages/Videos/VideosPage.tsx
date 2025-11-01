@@ -6,6 +6,7 @@ import { useT } from '../../shared/i18n'
 import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { VideoCard } from './VideoCard'
 import { Pagination } from '../../shared/ui/Pagination'
+import './videos.css'
 
 const ITEMS_PER_PAGE = 60
 

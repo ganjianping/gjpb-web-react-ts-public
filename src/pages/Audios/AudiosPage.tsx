@@ -6,6 +6,7 @@ import { useT } from '../../shared/i18n'
 import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { AudioCard } from './AudioCard'
 import { Pagination } from '../../shared/ui/Pagination'
+import './audios.css'
 
 const ITEMS_PER_PAGE = 60
 

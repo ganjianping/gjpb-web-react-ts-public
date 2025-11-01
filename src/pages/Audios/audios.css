@@ -1,0 +1,38 @@
+/* Audios grid layout */
+.grid--audios {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+/* Audio card specific styles */
+.audio-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.audio-card__title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.audio-card__description {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.audio-card__placeholder {
+  height: 160px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-alt);
+  color: var(--color-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.audio-card__player {
+  width: 100%;
+}
