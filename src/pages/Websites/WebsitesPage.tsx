@@ -34,7 +34,7 @@ const hasTag = (website: Website, tag: string | null) => {
   return tagList.includes(tag.toLowerCase())
 }
 
-type SortOrder = 'featured' | 'alpha' | 'recent'
+type SortOrder = 'displayOrder' | 'alpha' | 'recent'
 
 export const WebsitesPage = () => {
   const { language, searchQuery, setSearchQuery } = useUIContext()
@@ -44,7 +44,7 @@ export const WebsitesPage = () => {
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
-  const [sortOrder, setSortOrder] = useState<SortOrder>('featured')
+  const [sortOrder, setSortOrder] = useState<SortOrder>('displayOrder')
   const sectionTags = getTags('website_tags')
   const t = useT()
   const failedLabel = t('failed_to_load')
@@ -91,6 +91,9 @@ export const WebsitesPage = () => {
     const base = [...filteredItems]
 
     switch (sortOrder) {
+      case 'displayOrder':
+        base.sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
+        break
       case 'alpha':
         base.sort((a, b) => a.name.localeCompare(b.name, language === 'ZH' ? 'zh-CN' : 'en', { sensitivity: 'base' }))
         break
@@ -101,8 +104,8 @@ export const WebsitesPage = () => {
           return Number.isNaN(bTime - aTime) ? 0 : bTime - aTime
         })
         break
-      case 'featured':
       default:
+        // fallback to displayOrder
         base.sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
         break
     }
@@ -137,10 +140,7 @@ export const WebsitesPage = () => {
     setCurrentPage(1)
   }
 
-  const handleSortChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSortOrder(event.target.value as SortOrder)
-    setCurrentPage(1)
-  }
+  
 
   const toggleSearch = () => {
     setShowSearch((s) => !s)
@@ -273,6 +273,9 @@ export const WebsitesPage = () => {
               </button>
               {showSortMenu ? (
                 <div className="sort-menu" role="menu">
+                  <button type="button" className={`sort-menu__item${sortOrder === 'displayOrder' ? ' active' : ''}`} onClick={() => { setSortOrder('displayOrder'); setShowSortMenu(false); }}>
+                    {t('websites.sort.displayOrder')}
+                  </button>
                   <button type="button" className={`sort-menu__item${sortOrder === 'alpha' ? ' active' : ''}`} onClick={() => { setSortOrder('alpha'); setShowSortMenu(false); }}>
                     {t('websites.sort.alpha')}
                   </button>

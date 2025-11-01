@@ -26,6 +26,7 @@ const translations: Translations = {
   'websites.sort_label': { EN: 'Sort', ZH: '排序' },
   'websites.sort.alpha': { EN: 'A → Z', ZH: '按字母' },
   'websites.sort.recency': { EN: 'Recently updated', ZH: '最近更新' },
+  'websites.sort.displayOrder': { EN: 'Display order', ZH: '显示顺序' },
   'websites.description_placeholder': { EN: 'Description coming soon.', ZH: '描述即将更新。' },
   'websites.tags_label': { EN: 'Tags', ZH: '标签' },
   'websites.tags_filter': { EN: 'Filter by tags', ZH: '按标签筛选' },

@@ -9,15 +9,21 @@ export const LanguageToggle = () => {
 
   return (
     <button
-      className="toggle-button toggle-button--icon"
+      className="icon-toggle-button icon-toggle-button--language"
       type="button"
       onClick={toggleLanguage}
       aria-label={label}
       title={label}
     >
-      <span className="lang-badge" aria-hidden>
-        {language === 'ZH' ? '中' : 'EN'}
-      </span>
+      <div className="icon-toggle-button__wrapper">
+        <svg className="icon-toggle-button__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          <circle cx="12" cy="12" r="10" />
+          <path d="M2 12h20M12 2a15 15 0 010 20" />
+        </svg>
+        <span className="icon-toggle-button__badge" aria-hidden>
+          {language === 'ZH' ? '中' : 'EN'}
+        </span>
+      </div>
     </button>
   )
 }
