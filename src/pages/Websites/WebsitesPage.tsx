@@ -213,106 +213,91 @@ export const WebsitesPage = () => {
           ) : null}
         </div>
         
-          <div className="websites-toolbar__tags-wrapper">
-            {sectionTags.length > 0 ? (
-              <div className="websites-toolbar__tags" aria-label={t('websites.tags_filter')}>
+        <div className="websites-toolbar__tags-wrapper">
+          {sectionTags.length > 0 ? (
+            <div className="websites-toolbar__tags" aria-label={t('websites.tags_filter')}>
+              <button
+                type="button"
+                className={`chip${selectedTag === null ? ' chip--active' : ''}`}
+                onClick={() => handleSelectTag(null)}
+              >
+                {t('websites.filters.all')}
+              </button>
+              {sectionTags.map((tag) => (
                 <button
+                  key={tag}
                   type="button"
-                  className={`chip${selectedTag === null ? ' chip--active' : ''}`}
-                  onClick={() => handleSelectTag(null)}
+                  className={`chip${selectedTag === tag ? ' chip--active' : ''}`}
+                  onClick={() => handleSelectTag(selectedTag === tag ? null : tag)}
                 >
-                  {t('websites.filters.all')}
+                  {tag}
                 </button>
-                {sectionTags.map((tag) => (
-                  <button
-                    key={tag}
-                    type="button"
-                    className={`chip${selectedTag === tag ? ' chip--active' : ''}`}
-                    onClick={() => handleSelectTag(selectedTag === tag ? null : tag)}
-                  >
-                    {tag}
+              ))}
+            </div>
+          ) : null}
+
+          <div className="websites-toolbar__actions" ref={actionsRef}>
+            {/* inline search toggle + input */}
+            <div className="websites-inline-search">
+              <button type="button" aria-label={t('search.placeholder')} className="toolbar-icon-button" onClick={toggleSearch}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="m20 20-3.5-3.5M16 10.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0Z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              {showSearch ? (
+                <div className="websites-inline-search__box">
+                  <input
+                    ref={searchInputRef}
+                    className="websites-toolbar__search-input"
+                    type="search"
+                    value={searchQuery}
+                    placeholder={t('search.placeholder')}
+                    aria-label={t('search.placeholder')}
+                    onChange={handleSearchChange}
+                  />
+                  {searchQuery ? (
+                    <button type="button" className="websites-toolbar__clear" onClick={handleClearSearch} aria-label={t('websites.search_clear')}>
+                      ×
+                    </button>
+                  ) : null}
+                </div>
+              ) : null}
+            </div>
+
+            {/* sort toggle + menu */}
+            <div className="websites-sort-menu">
+              <button type="button" aria-label={t('websites.sort_label')} className="toolbar-icon-button" onClick={toggleSortMenu}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M3 6h18M6 12h12M10 18h4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              {showSortMenu ? (
+                <div className="sort-menu" role="menu">
+                  <button type="button" className={`sort-menu__item${sortOrder === 'alpha' ? ' active' : ''}`} onClick={() => { setSortOrder('alpha'); setShowSortMenu(false); }}>
+                    {t('websites.sort.alpha')}
                   </button>
-                ))}
-              </div>
-            ) : null}
-
-            <div className="websites-toolbar__actions" ref={actionsRef}>
-              {/* inline search toggle + input */}
-              <div className="websites-inline-search">
-                <button type="button" aria-label={t('search.placeholder')} className="toolbar-icon-button" onClick={toggleSearch}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="m20 20-3.5-3.5M16 10.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0Z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-                {showSearch ? (
-                  <div className="websites-inline-search__box">
-                    <input
-                      ref={searchInputRef}
-                      className="websites-toolbar__search-input"
-                      type="search"
-                      value={searchQuery}
-                      placeholder={t('search.placeholder')}
-                      aria-label={t('search.placeholder')}
-                      onChange={handleSearchChange}
-                    />
-                    {searchQuery ? (
-                      <button type="button" className="websites-toolbar__clear" onClick={handleClearSearch} aria-label={t('websites.search_clear')}>
-                        ×
-                      </button>
-                    ) : null}
-                  </div>
-                ) : null}
-              </div>
-
-              {/* sort toggle + menu */}
-              <div className="websites-sort-menu">
-                <button type="button" aria-label={t('websites.sort_label')} className="toolbar-icon-button" onClick={toggleSortMenu}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M3 6h18M6 12h12M10 18h4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-                {showSortMenu ? (
-                  <div className="sort-menu" role="menu">
-                    <button type="button" className={`sort-menu__item${sortOrder === 'featured' ? ' active' : ''}`} onClick={() => { setSortOrder('featured'); setShowSortMenu(false); }}>
-                      {t('websites.sort.featured')}
-                    </button>
-                    <button type="button" className={`sort-menu__item${sortOrder === 'alpha' ? ' active' : ''}`} onClick={() => { setSortOrder('alpha'); setShowSortMenu(false); }}>
-                      {t('websites.sort.alpha')}
-                    </button>
-                    <button type="button" className={`sort-menu__item${sortOrder === 'recent' ? ' active' : ''}`} onClick={() => { setSortOrder('recent'); setShowSortMenu(false); }}>
-                      {t('websites.sort.recency')}
-                    </button>
-                  </div>
-                ) : null}
-              </div>
+                  <button type="button" className={`sort-menu__item${sortOrder === 'recent' ? ' active' : ''}`} onClick={() => { setSortOrder('recent'); setShowSortMenu(false); }}>
+                    {t('websites.sort.recency')}
+                  </button>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
+      </div>
 
       {loading ? (
         <div className="grid grid--websites">
           {skeletonItems.map((item) => (
             <div key={item} className="card website-card website-card--skeleton" aria-hidden="true">
-              <div className="website-card__header">
+              <div className="website-card__layout">
                 <div className="website-card__logo skeleton" />
-                <div className="website-card__meta">
+                <div className="website-card__content">
                   <div className="skeleton skeleton--line skeleton--line-lg" />
-                  <div className="skeleton skeleton--line skeleton--line-sm" />
+                  <div className="website-card__tags skeleton skeleton--line skeleton--line-sm" />
                 </div>
               </div>
-              <div className="website-card__description">
-                <div className="skeleton skeleton--line" />
-                <div className="skeleton skeleton--line" />
-                <div className="skeleton skeleton--line skeleton--line-sm" />
-              </div>
-              <div className="website-card__footer">
-                <div className="website-card__tags">
-                  <span className="skeleton skeleton--pill" />
-                  <span className="skeleton skeleton--pill" />
-                  <span className="skeleton skeleton--pill skeleton--pill-sm" />
-                </div>
-                <div className="skeleton skeleton--button" />
-              </div>
+              <div className="website-card__info-button skeleton skeleton--icon" />
             </div>
           ))}
         </div>

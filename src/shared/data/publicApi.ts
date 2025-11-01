@@ -61,8 +61,14 @@ const fetchJson = async <TResponse>(input: string, init?: RequestInit): Promise<
 export const getAppSettings = () =>
   fetchJson<ApiListResponse<AppSetting[]>>(createUrl('app-settings'))
 
-export const getWebsites = (page = 0, size = 60) =>
-  fetchJson<ApiPagedResponse<Website>>(createUrl('cms/websites', { page, size }))
+export const getWebsites = (
+  page = 0,
+  size = 60,
+  search?: string,
+  tag?: string,
+) =>
+  // Add optional search and tag query params so callers can request server-side filtering
+  fetchJson<ApiPagedResponse<Website>>(createUrl('cms/websites', { page, size, search, tag }))
 
 export const getArticles = (page = 0, size = 60) =>
   fetchJson<ApiPagedResponse<ArticleSummary>>(createUrl('cms/articles', { page, size }))

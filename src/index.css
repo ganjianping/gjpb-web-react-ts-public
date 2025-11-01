@@ -243,8 +243,8 @@ img {
 
 .layout__content {
   flex: 1;
-  padding: 2rem 1rem 4rem;
-  max-width: var(--max-content-width);
+  padding: 1rem;
+  max-width: 100%;
   width: 100%;
   margin: 0 auto;
 }
@@ -325,12 +325,11 @@ img {
   flex-direction: row;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem 1.1rem;
-  padding-right: 3.2rem;
-  height: 80px;
-  min-height: 80px;
-  /* allow popovers to overflow outside the card bounds */
+  padding: 0;
+  height: 74px;
+  min-height: 74px;
   overflow: visible;
+  border-color: #e5e8ec;
 }
 
 .website-card__link {
@@ -339,7 +338,6 @@ img {
   gap: 0.75rem;
   color: inherit;
   text-decoration: none;
-  border-radius: var(--radius-md);
   flex: 1;
   height: 100%;
 }
@@ -356,14 +354,15 @@ img {
   flex: 1;
   min-width: 0;
   height: 100%;
+  padding: 0;
 }
 
 .website-card__logo {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-sm);
-  background: var(--color-surface-alt);
-  border: 1px solid rgba(126, 136, 156, 0.16);
+  width: 40px;
+  height: 40px;
+  border-radius: 32px;
+  margin-left: 8px;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -374,12 +373,15 @@ img {
 .website-card__logo img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  padding: 0;
+  margin: 0;
 }
 
 .website-card__content {
   flex: 1;
   min-width: 0;
+  width: 100% ;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -388,9 +390,10 @@ img {
 
 .website-card__title {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 1.0rem;
   font-weight: 600;
   color: var(--color-text);
+  max-width: calc(100% - 68px);
   line-height: 1.3;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -401,7 +404,7 @@ img {
   display: block;
   font-size: 0.78rem;
   color: var(--color-muted);
-  max-width: 60%;
+  max-width: calc(100% - 68px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1003,7 +1006,7 @@ img {
   }
 
   .layout__content {
-    padding: 3rem 2rem 6rem;
+    padding: 1rem;
   }
 
   .page__title {
@@ -1017,6 +1020,6 @@ img {
   }
 
   .layout__content {
-    padding: 3.5rem 2rem 6rem;
+    padding: 2rem;
   }
 }
