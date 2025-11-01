@@ -1,5 +1,4 @@
 import { type ChangeEvent, useEffect, useMemo, useRef, useState } from 'react'
-import './websites.css'
 import { getWebsites } from '../../shared/data/publicApi'
 import type { Website } from '../../shared/data/types'
 import { useUIContext } from '../../shared/contexts/UIContext'
@@ -7,6 +6,7 @@ import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { useT } from '../../shared/i18n'
 import { Pagination } from '../../shared/ui/Pagination'
 import { WebsiteCard } from './WebsiteCard'
+import './websites.css'
 
 const ITEMS_PER_PAGE = 60
 

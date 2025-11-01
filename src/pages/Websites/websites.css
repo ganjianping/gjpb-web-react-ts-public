@@ -1,9 +1,9 @@
-/* Website-specific styles moved from global index.css */
-
+/* Websites grid layout */
 .grid--websites {
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 }
 
+/* Website card styles */
 .website-card {
   position: relative;
   flex-direction: row;
@@ -179,10 +179,7 @@
   transform: rotate(45deg);
 }
 
-.website-card--skeleton .website-card__logo {
-  border: none;
-}
-
+/* Websites toolbar */
 .websites-toolbar {
   display: flex;
   flex-wrap: nowrap;
@@ -264,6 +261,13 @@
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18);
 }
 
+.websites-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* New: center area inside toolbar to host scrollable tags */
 .websites-toolbar__tags-wrapper {
   /* Expand to fill available toolbar space. Tags scroll while actions stay fixed. */
   display: flex;
@@ -288,6 +292,7 @@
   padding-right: 3.5rem;
 }
 
+/* Hide scrollbar in WebKit while keeping scrollability */
 .websites-toolbar__tags::-webkit-scrollbar {
   height: 8px;
 }
@@ -299,6 +304,7 @@
   background: transparent;
 }
 
+/* actions at the end of the tags row */
 .websites-toolbar__actions {
   display: flex;
   align-items: center;
@@ -320,7 +326,6 @@
   cursor: pointer;
   border-radius: var(--radius-sm);
 }
-
 .toolbar-icon-button:hover,
 .toolbar-icon-button:focus {
   color: var(--color-primary);
@@ -387,4 +392,24 @@
   background: var(--color-primary);
   border-color: var(--color-primary);
   color: #ffffff;
+}
+
+/* Website card skeleton */
+.website-card--skeleton .website-card__logo {
+  border: none;
+}
+
+/* Responsive styles for websites */
+@media (min-width: 768px) {
+  .grid--websites {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+
+  .website-card__title {
+    max-width: calc(100% - 68px);
+  }
+
+  .website-card__tags {
+    max-width: calc(100% - 68px);
+  }
 }
