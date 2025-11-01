@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
-import type { Website } from '../../shared/data/types'
-import { useT } from '../../shared/i18n'
+import type { Website } from '../../../shared/data/types'
+import { useT } from '../../../shared/i18n'
 
 interface WebsiteCardProps {
   website: Website
@@ -73,3 +73,5 @@ export const WebsiteCard = ({ website }: WebsiteCardProps) => {
     </article>
   )
 }
+
+export default WebsiteCard
