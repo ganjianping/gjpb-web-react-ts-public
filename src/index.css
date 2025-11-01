@@ -329,6 +329,8 @@ img {
   padding-right: 3.2rem;
   height: 80px;
   min-height: 80px;
+  /* allow popovers to overflow outside the card bounds */
+  overflow: visible;
 }
 
 .website-card__link {
@@ -442,7 +444,7 @@ img {
   box-shadow: var(--shadow-md);
   padding: 0.85rem 2.25rem 0.85rem 0.9rem;
   color: var(--color-text);
-  z-index: 4;
+  z-index: 9999; /* ensure it appears above other content */
 }
 
 .website-card__description-popover p {
@@ -478,16 +480,15 @@ img {
 }
 
 .website-card__description-popover::before {
-  /* small caret pointing up */
   content: '';
   position: absolute;
   right: 18px;
-  top: -7px;
+  bottom: -7px;
   width: 14px;
   height: 14px;
   background: inherit;
   border-left: 1px solid rgba(126, 136, 156, 0.24);
-  border-top: 1px solid rgba(126, 136, 156, 0.24);
+  border-bottom: 1px solid rgba(126, 136, 156, 0.24);
   transform: rotate(45deg);
 }
 
