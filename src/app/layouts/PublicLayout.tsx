@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { Footer } from '../../shared/components/Footer'
 import { LanguageToggle } from '../../shared/ui/LanguageToggle'
@@ -19,11 +19,28 @@ export const PublicLayout = () => {
   const location = useLocation()
   const { getTags } = useAppSettings()
   const { language } = useUIContext()
-
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [location.pathname])
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setMobileMenuOpen(false)
+  }, [location.pathname])
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [mobileMenuOpen])
 
   const renderIcon = (key: string) => {
     switch (key) {
@@ -78,9 +95,35 @@ export const PublicLayout = () => {
   return (
     <div className="layout">
       <header className="site-header">
+        {/* Hamburger menu button (mobile only) */}
+        <button
+          type="button"
+          className="site-header__menu-toggle"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle navigation menu"
+          aria-expanded={mobileMenuOpen}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            {mobileMenuOpen ? (
+              <>
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </>
+            ) : (
+              <>
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </>
+            )}
+          </svg>
+        </button>
+
         <NavLink to="/public/websites" className="site-logo">
           <img src="/favicon.ico" alt="Site logo" className="site-logo__img" />
         </NavLink>
+
+        {/* Desktop navigation */}
         <nav className="site-header__sections" aria-label="Main navigation">
           {sectionLinks.map((link) => {
             const tags = getTags(link.tagsKey)
@@ -99,11 +142,40 @@ export const PublicLayout = () => {
             )
           })}
         </nav>
+
         <div className="site-header__actions">
           <ThemeToggle />
           <LanguageToggle />
         </div>
       </header>
+
+      {/* Mobile menu drawer */}
+      {mobileMenuOpen && (
+        <>
+          <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)} aria-hidden="true" />
+          <nav className="mobile-menu" aria-label="Mobile navigation">
+            <div className="mobile-menu__content">
+              {sectionLinks.map((link) => {
+                const tags = getTags(link.tagsKey)
+                return (
+                  <NavLink
+                    key={link.path}
+                    to={link.path}
+                    className={({ isActive }) => `mobile-menu__link${isActive ? ' mobile-menu__link--active' : ''}`}
+                    title={tags.length > 0 ? tags.join(', ') : undefined}
+                  >
+                    <span className="mobile-menu__icon" aria-hidden>
+                      {renderIcon(link.tagsKey)}
+                    </span>
+                    <span className="mobile-menu__label">{link.label[language]}</span>
+                  </NavLink>
+                )
+              })}
+            </div>
+          </nav>
+        </>
+      )}
+
       <main className="layout__content">
         <Outlet />
       </main>
