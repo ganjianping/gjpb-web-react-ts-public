@@ -3,8 +3,8 @@ figure {
   display: block;
   margin-block-start: 1em;
   margin-block-end: 0;
-  margin-inline-start: 10px;
-  margin-inline-end: 10px;
+  margin-inline-start: 5px;
+  margin-inline-end: 5px;
 }
 
 .grid--images {
@@ -51,7 +51,7 @@ figure {
 .image-card__title {
   margin: 0;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--color-text);
   line-height: 1.25;
   overflow: hidden;

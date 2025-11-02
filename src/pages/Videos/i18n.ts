@@ -5,6 +5,7 @@ const videosTranslations = {
   'video.watch': { EN: 'Watch', ZH: '观看' },
   'untitled.video': { EN: 'Untitled video', ZH: '未命名视频' },
   'placeholder.video': { EN: 'Video', ZH: '视频' },
+  'videos.filters.all': { EN: 'All', ZH: '全部' },
 }
 
 export default videosTranslations

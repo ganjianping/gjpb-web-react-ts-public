@@ -5,6 +5,7 @@ const imagesTranslations = {
   'image.preview': { EN: 'Preview', ZH: '预览' },
   'untitled.image': { EN: 'Untitled image', ZH: '未命名图片' },
   'placeholder.image': { EN: 'Image', ZH: '图片' },
+  'images.filters.all': { EN: 'All', ZH: '全部' },
 }
 
 export default imagesTranslations

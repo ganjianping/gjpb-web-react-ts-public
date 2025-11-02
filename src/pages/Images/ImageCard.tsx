@@ -22,13 +22,6 @@ export const ImageCard = ({ item }: ImageCardProps) => {
       <img src={imageSource} alt={altText} loading="lazy" className="image-card__image" />
       <figcaption className="image-card__caption">
         <div className="image-card__title">{item.name ?? item.title ?? 'Untitled image'}</div>
-        <div className="image-card__tags">
-          {tagList.map((tag) => (
-            <span key={tag} className="tag">
-              {tag}
-            </span>
-          ))}
-        </div>
       </figcaption>
     </figure>
   )
