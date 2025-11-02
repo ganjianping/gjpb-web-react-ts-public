@@ -6,6 +6,9 @@ const imagesTranslations = {
   'untitled.image': { EN: 'Untitled image', ZH: '未命名图片' },
   'placeholder.image': { EN: 'Image', ZH: '图片' },
   'images.filters.all': { EN: 'All', ZH: '全部' },
+  'images.sort.displayOrder': { EN: 'Display Order', ZH: '显示顺序' },
+  'images.sort.alpha': { EN: 'Alphabetical', ZH: '字母顺序' },
+  'images.sort.recency': { EN: 'Recency', ZH: '最新发布' },
 }
 
 export default imagesTranslations
