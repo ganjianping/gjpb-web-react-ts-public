@@ -47,6 +47,7 @@ export const AudiosPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
   const [sortOrder, setSortOrder] = useState<SortOrder>('displayOrder')
+  const [activeItem, setActiveItem] = useState<MediaItem | null>(null)
   const sectionTags = getTags('audio_tags')
   const t = useT()
   const failedLabel = t('failed_to_load')
@@ -141,6 +142,12 @@ export const AudiosPage = () => {
     setCurrentPage(1)
   }
 
+  const handleTogglePlayer = (item: MediaItem) => {
+    setActiveItem((current) => (current?.id === item.id ? null : item))
+  }
+
+  const activeCaptionsUrl = (activeItem as any)?.captionsUrl as string | undefined
+
   return (
     <section className="page">
       <Toolbar
@@ -170,9 +177,23 @@ export const AudiosPage = () => {
 
       {!loading && !error ? (
         <>
+          {activeItem ? (
+            <div className="audio-card__player-wrapper">
+              <audio key={activeItem.id} className="audio-card__player" controls autoPlay preload="none">
+                <source src={activeItem.url} />
+                {/* include a captions track element (src may be empty if not available) */}
+                <track kind="captions" srcLang="en" src={activeCaptionsUrl ?? ''} />
+              </audio>
+            </div>
+          ) : null}
           <div className="grid grid--audios">
             {paginatedItems.map((item) => (
-              <AudioCard key={item.id} item={item} />
+              <AudioCard
+                key={item.id}
+                item={item}
+                isActive={activeItem?.id === item.id}
+                onTogglePlayer={handleTogglePlayer}
+              />
             ))}
           </div>
           {paginatedItems.length === 0 ? <div className="status status--empty">{t('audios.empty')}</div> : null}

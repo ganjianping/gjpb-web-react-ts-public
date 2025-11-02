@@ -21,8 +21,8 @@
 }
 
 .audio-card__media {
-  width: 120px;
-  height: 120px;
+  width: 94px;
+  height: 94px;
   border-radius: var(--radius-sm);
   overflow: hidden;
   background: var(--color-surface-alt);
@@ -91,6 +91,7 @@
   font-size: 1.15rem;
   font-weight: 600;
   word-wrap: break-word;
+  padding-top: 0.5rem;
 }
 
 .audio-card__description {
