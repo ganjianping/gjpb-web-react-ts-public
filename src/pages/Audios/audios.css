@@ -21,8 +21,8 @@
 }
 
 .audio-card__media {
-  width: 94px;
-  height: 94px;
+  width: 90px;
+  height: 90px;
   border-radius: var(--radius-sm);
   overflow: hidden;
   background: var(--color-surface-alt);
@@ -88,7 +88,7 @@
 
 .audio-card__title {
   margin: 0;
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 600;
   word-wrap: break-word;
   padding-top: 0.5rem;
@@ -121,6 +121,48 @@
   border-top: 1px solid var(--color-border);
 }
 
+.audio-card__player-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .audio-card__player {
   width: 100%;
+}
+
+.audio-card__subtitle-button {
+  flex-shrink: 0;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  border-radius: var(--radius-xs);
+  padding: 0.4rem 0.6rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.audio-card__subtitle-button:hover {
+  background: var(--color-surface);
+  color: var(--color-primary);
+}
+
+.audio-card__subtitle {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.audio-card__subtitle p {
+  margin: 0 0 0.5rem;
+}
+
+.audio-card__subtitle p:last-child {
+  margin-bottom: 0;
 }

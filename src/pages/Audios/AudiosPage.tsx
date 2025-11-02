@@ -48,6 +48,7 @@ export const AudiosPage = () => {
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
   const [sortOrder, setSortOrder] = useState<SortOrder>('displayOrder')
   const [activeItem, setActiveItem] = useState<MediaItem | null>(null)
+  const [showSubtitle, setShowSubtitle] = useState(false)
   const sectionTags = getTags('audio_tags')
   const t = useT()
   const failedLabel = t('failed_to_load')
@@ -146,6 +147,10 @@ export const AudiosPage = () => {
     setActiveItem((current) => (current?.id === item.id ? null : item))
   }
 
+  useEffect(() => {
+    setShowSubtitle(false)
+  }, [activeItem?.id])
+
   const activeCaptionsUrl = (activeItem as any)?.captionsUrl as string | undefined
 
   return (
@@ -179,11 +184,31 @@ export const AudiosPage = () => {
         <>
           {activeItem ? (
             <div className="audio-card__player-wrapper">
-              <audio key={activeItem.id} className="audio-card__player" controls autoPlay preload="none">
-                <source src={activeItem.url} />
-                {/* include a captions track element (src may be empty if not available) */}
-                <track kind="captions" srcLang="en" src={activeCaptionsUrl ?? ''} />
-              </audio>
+              <div className="audio-card__player-controls">
+                <audio key={activeItem.id} className="audio-card__player" controls autoPlay preload="none">
+                  <source src={activeItem.url} />
+                  {/* include a captions track element (src may be empty if not available) */}
+                  <track kind="captions" srcLang="en" src={activeCaptionsUrl ?? ''} />
+                </audio>
+                {activeItem.subtitle ? (
+                  <button
+                    type="button"
+                    className="audio-card__subtitle-button"
+                    onClick={() => setShowSubtitle((prev) => !prev)}
+                    aria-pressed={showSubtitle}
+                    aria-label={showSubtitle ? 'Hide subtitles' : 'Show subtitles'}
+                    title={showSubtitle ? 'Hide subtitles' : 'Show subtitles'}
+                  >
+                    CC
+                  </button>
+                ) : null}
+              </div>
+              {showSubtitle && activeItem.subtitle ? (
+                <div
+                  className="audio-card__subtitle"
+                  dangerouslySetInnerHTML={{ __html: activeItem.subtitle }}
+                />
+              ) : null}
             </div>
           ) : null}
           <div className="grid grid--audios">
