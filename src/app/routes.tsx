@@ -2,6 +2,7 @@ import { Navigate, createBrowserRouter } from 'react-router-dom'
 import { PublicLayout } from './layouts/PublicLayout'
 import { WebsitesPage } from '../pages/Websites/WebsitesPage'
 import { ArticlesPage } from '../pages/Articles/ArticlesPage'
+import { ArticleDetailPage } from '../pages/Articles/ArticleDetailPage'
 import { ImagesPage } from '../pages/Images/ImagesPage'
 import { AudiosPage } from '../pages/Audios/AudiosPage'
 import { VideosPage } from '../pages/Videos/VideosPage'
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
       {
         path: '/public/articles',
         element: <ArticlesPage />,
+      },
+      {
+        path: '/public/articles/:id',
+        element: <ArticleDetailPage />,
       },
       {
         path: '/public/images',
