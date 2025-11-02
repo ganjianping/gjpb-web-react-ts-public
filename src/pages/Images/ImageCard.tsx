@@ -3,21 +3,15 @@ import { useT } from '../../shared/i18n'
 
 interface ImageCardProps {
   item: MediaItem
+  onClick?: () => void
 }
 
-const getTagList = (tags: string) =>
-  tags
-    .split(',')
-    .map((tag) => tag.trim())
-    .filter(Boolean)
-
-export const ImageCard = ({ item }: ImageCardProps) => {
+export const ImageCard = ({ item, onClick }: ImageCardProps) => {
   const t = useT()
-  const tagList = getTagList(item.tags)
   const imageSource = item.thumbnailUrl ?? item.url
   const altText = item.altText ?? item.name ?? t('placeholder.image')
 
-  return (
+  const cardContent = (
     <figure className="card image-card">
       <img src={imageSource} alt={altText} loading="lazy" className="image-card__image" />
       <figcaption className="image-card__caption">
@@ -25,4 +19,14 @@ export const ImageCard = ({ item }: ImageCardProps) => {
       </figcaption>
     </figure>
   )
+
+  if (onClick) {
+    return (
+      <button onClick={onClick} style={{ all: 'unset', cursor: 'pointer', display: 'block' }}>
+        {cardContent}
+      </button>
+    )
+  }
+
+  return cardContent
 }

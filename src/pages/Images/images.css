@@ -70,3 +70,127 @@ figure {
     height: 200px;
   }
 }
+
+/* Image Preview Modal */
+.image-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.image-preview__container {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.image-preview__image {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+
+.image-preview__nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.image-preview__button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s ease;
+}
+
+.image-preview__button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.image-preview__button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.image-preview__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.image-preview__close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.image-preview__info {
+  color: white;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.image-preview__title {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.image-preview__counter {
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .image-preview__container {
+    max-width: 95vw;
+  }
+
+  .image-preview__button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .image-preview__close {
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+  }
+}

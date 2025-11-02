@@ -5,6 +5,7 @@ import { useUIContext } from '../../shared/contexts/UIContext'
 import { useT } from '../../shared/i18n'
 import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { ImageCard } from './ImageCard'
+import { ImagePreview } from './ImagePreview'
 import { Pagination } from '../../shared/ui/Pagination'
 import { Toolbar } from '../../shared/components/Toolbar/Toolbar'
 import './images.css'
@@ -47,6 +48,7 @@ export const ImagesPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
   const [sortOrder, setSortOrder] = useState<SortOrder>('displayOrder')
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
   const sectionTags = getTags('image_tags')
   const t = useT()
   const failedLabel = t('failed_to_load')
@@ -171,14 +173,24 @@ export const ImagesPage = () => {
       {!loading && !error ? (
         <>
           <div className="grid grid--images">
-            {paginatedItems.map((item) => (
-              <ImageCard key={item.id} item={item} />
+            {paginatedItems.map((item, index) => (
+              <ImageCard key={item.id} item={item} onClick={() => setSelectedImageIndex(index)} />
             ))}
           </div>
           {paginatedItems.length === 0 ? <div className="status status--empty">{t('images.empty')}</div> : null}
           <Pagination currentPage={safePage} totalPages={totalPages} onPageChange={setCurrentPage} />
         </>
       ) : null}
+
+      {selectedImageIndex !== null && (
+        <ImagePreview
+          image={paginatedItems[selectedImageIndex]}
+          allImages={paginatedItems}
+          onClose={() => setSelectedImageIndex(null)}
+          onNext={() => setSelectedImageIndex((prev) => (prev !== null && prev < paginatedItems.length - 1 ? prev + 1 : prev))}
+          onPrevious={() => setSelectedImageIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : prev))}
+        />
+      )}
     </section>
   )
 }
