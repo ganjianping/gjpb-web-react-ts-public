@@ -63,32 +63,32 @@ export const ImagePreview = ({ image, allImages, onClose, onNext, onPrevious }: 
           />
         </div>
 
-        <div className="image-preview__info">
-          <h3 className="image-preview__title">{image.name ?? image.title ?? 'Untitled'}</h3>
-          <p className="image-preview__counter">
-            {currentIndex + 1} / {allImages.length}
-          </p>
-        </div>
-
-        {hasPrevious ? (
+        <div className="image-preview__controls">
           <button
             className="image-preview__nav image-preview__nav--prev"
             onClick={onPrevious}
+            disabled={!hasPrevious}
             aria-label={t('image.previous') || 'Previous image'}
           >
             ‹
           </button>
-        ) : null}
 
-        {hasNext ? (
+          <div className="image-preview__info">
+            <h3 className="image-preview__title">{image.name ?? image.title ?? 'Untitled'}</h3>
+            <p className="image-preview__counter">
+              {currentIndex + 1} / {allImages.length}
+            </p>
+          </div>
+
           <button
             className="image-preview__nav image-preview__nav--next"
             onClick={onNext}
+            disabled={!hasNext}
             aria-label={t('image.next') || 'Next image'}
           >
             ›
           </button>
-        ) : null}
+        </div>
       </div>
     </div>
   )

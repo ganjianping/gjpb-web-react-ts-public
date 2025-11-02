@@ -106,36 +106,53 @@ figure {
   gap: 1rem;
 }
 
+.image-preview__content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: calc(90vh - 5rem);
+}
+
 .image-preview__image {
-  max-width: 100%;
-  max-height: 80vh;
+  max-width: 90vw;
+  max-height: calc(90vh - 5rem);
   object-fit: contain;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
 }
 
-.image-preview__nav {
+.image-preview__controls {
   display: flex;
-  gap: 1rem;
   align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+  max-width: 800px;
 }
 
-.image-preview__button {
+.image-preview__nav {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
   padding: 0.75rem 1.5rem;
   border-radius: var(--radius-md);
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 2rem;
+  line-height: 1;
   transition: background 0.2s ease;
+  min-width: 3.5rem;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.image-preview__button:hover:not(:disabled) {
+.image-preview__nav:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.2);
 }
 
-.image-preview__button:disabled {
+.image-preview__nav:disabled {
   opacity: 0.3;
   cursor: not-allowed;
 }
@@ -166,15 +183,21 @@ figure {
   color: white;
   font-size: 0.9rem;
   text-align: center;
+  flex: 1;
+  min-width: 0;
 }
 
 .image-preview__title {
   font-weight: 500;
-  margin-bottom: 0.25rem;
+  margin: 0 0 0.25rem 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .image-preview__counter {
   opacity: 0.7;
+  margin: 0;
 }
 
 @media (max-width: 768px) {
@@ -182,9 +205,15 @@ figure {
     max-width: 95vw;
   }
 
-  .image-preview__button {
+  .image-preview__controls {
+    gap: 1rem;
+  }
+
+  .image-preview__nav {
     padding: 0.5rem 1rem;
-    font-size: 0.9rem;
+    font-size: 1.5rem;
+    min-width: 3rem;
+    height: 3rem;
   }
 
   .image-preview__close {
@@ -193,5 +222,13 @@ figure {
     width: 2.5rem;
     height: 2.5rem;
     font-size: 1.25rem;
+  }
+
+  .image-preview__info {
+    font-size: 0.85rem;
+  }
+
+  .image-preview__title {
+    font-size: 0.9rem;
   }
 }
