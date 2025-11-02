@@ -11,11 +11,13 @@ export const ArticleDetailPage = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const t = useT()
+  const invalidIdMessage = t('articles.invalid_id')
+  const failedToLoadMessage = t('failed_to_load')
 
   useEffect(() => {
     const fetchArticle = async () => {
       if (!id) {
-        setError(t('articles.invalid_id'))
+        setError(invalidIdMessage)
         setLoading(false)
         return
       }
@@ -27,7 +29,7 @@ export const ArticleDetailPage = () => {
         const response = await getArticleById(id)
         setArticle(response.data)
       } catch (err) {
-        const message = err instanceof Error ? err.message : t('failed_to_load')
+        const message = err instanceof Error ? err.message : failedToLoadMessage
         setError(message)
       } finally {
         setLoading(false)
@@ -35,7 +37,11 @@ export const ArticleDetailPage = () => {
     }
 
     void fetchArticle()
-  }, [id, t])
+    // `t` (translation function) is stable via `useT` and not required as a
+    // dependency for fetching data. Restrict the effect to `id` so we only
+    // refetch when the article id changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id])
 
   if (loading) {
     return (
@@ -53,10 +59,10 @@ export const ArticleDetailPage = () => {
         <div className="status status--error">
           <span>{t('failed_to_load')}</span>
           {error ? <span className="status__message">{error}</span> : null}
+          <Link to="/public/articles" className="button button--primary">
+            {t('articles.back_to_list')}
+          </Link>
         </div>
-        <Link to="/public/articles" className="button button--primary">
-          {t('articles.back_to_list')}
-        </Link>
       </section>
     )
   }
@@ -68,6 +74,8 @@ export const ArticleDetailPage = () => {
           ← {t('articles.back_to_list')}
         </Link>
       </div>
+      
+      <h1 className="article-detail__title">{article.title}</h1>
 
       {article.coverImageUrl ? (
         <div className="article-detail__cover">
@@ -76,34 +84,24 @@ export const ArticleDetailPage = () => {
       ) : null}
 
       <article className="article-detail__content">
-        <h1 className="article-detail__title">{article.title}</h1>
-        
-        {article.summary ? (
-          <p className="article-detail__summary">{article.summary}</p>
-        ) : null}
-
         <div className="article-detail__meta">
+          {article.tags ? (
+            <span className="article-detail__tags">
+              {t('articles.tags')}: {article.tags};
+            </span>
+          ) : null}
           {article.sourceName ? (
             <span className="article-detail__source">
-              {t('articles.source')}: {article.sourceName}
+              {t('articles.source')}: {article.sourceName};
             </span>
           ) : null}
           {article.updatedAt ? (
             <time className="article-detail__date">
-              {new Date(article.updatedAt).toLocaleDateString()}
+             {t('articles.updateAt')}:  {new Date(article.updatedAt).toLocaleDateString()}
             </time>
           ) : null}
+          
         </div>
-
-        {article.tags ? (
-          <div className="article-detail__tags">
-            {article.tags.split(',').map((tag) => (
-              <span key={tag.trim()} className="tag">
-                {tag.trim()}
-              </span>
-            ))}
-          </div>
-        ) : null}
 
         <div 
           className="article-detail__body"

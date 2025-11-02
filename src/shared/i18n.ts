@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { useUIContext } from './contexts/UIContext'
 import websitesTranslations from '../pages/Websites/i18n'
 import articlesTranslations from '../pages/Articles/i18n'
@@ -54,7 +55,7 @@ const translations: Translations = {
 export const useT = () => {
   const { language } = useUIContext()
 
-  const t = (key: string, vars?: Record<string, string | number>) => {
+  const t = useCallback((key: string, vars?: Record<string, string | number>) => {
     const entry = translations[key]
     const lang: Lang = language
     let text = entry ? entry[lang] ?? entry.EN : key
@@ -71,7 +72,7 @@ export const useT = () => {
     }
 
     return text
-  }
+  }, [language])
 
   return t
 }

@@ -15,6 +15,8 @@ const articlesTranslations = {
   'articles.view_original': { EN: 'View Original Article', ZH: '查看原文' },
   'article.read_more': { EN: 'Read more', ZH: '阅读全文' },
   'article.read_on': { EN: 'Read on {source}', ZH: '在 {source} 阅读' },
+  'articles.tags': { EN: 'Tags', ZH: '标签' },
+  'articles.updateAt': { EN: 'Updated At', ZH: '更新于' },
 }
 
 export default articlesTranslations
