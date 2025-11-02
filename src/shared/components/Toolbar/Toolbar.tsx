@@ -1,5 +1,6 @@
 import { type ChangeEvent, useEffect, useRef, useState } from 'react'
-import { useT } from '../../../shared/i18n'
+import { useT } from '../../i18n'
+import './Toolbar.css'
 
 type Props = {
   sectionTags: string[]
@@ -10,9 +11,10 @@ type Props = {
   onClearSearch: () => void
   sortOrder: 'displayOrder' | 'alpha' | 'recent'
   setSortOrder: (v: 'displayOrder' | 'alpha' | 'recent') => void
+  namespace: string // 'websites' or 'articles'
 }
 
-export const WebsiteToolbar = ({
+export const Toolbar = ({
   sectionTags,
   selectedTag,
   onSelectTag,
@@ -21,6 +23,7 @@ export const WebsiteToolbar = ({
   onClearSearch,
   sortOrder,
   setSortOrder,
+  namespace,
 }: Props) => {
   const t = useT()
   const [showSearch, setShowSearch] = useState(false)
@@ -55,10 +58,10 @@ export const WebsiteToolbar = ({
   }, [showSearch])
 
   return (
-    <div className="websites-toolbar">
-      <div className="websites-toolbar__search">
+    <div className="toolbar">
+      <div className="toolbar__search">
         <svg
-          className="websites-toolbar__search-icon"
+          className="toolbar__search-icon"
           width="18"
           height="18"
           viewBox="0 0 24 24"
@@ -75,7 +78,7 @@ export const WebsiteToolbar = ({
           />
         </svg>
         <input
-          className="websites-toolbar__search-input"
+          className="toolbar__search-input"
           type="search"
           value={searchQuery}
           placeholder={t('search.placeholder')}
@@ -83,21 +86,21 @@ export const WebsiteToolbar = ({
           onChange={onSearchChange}
         />
         {searchQuery ? (
-          <button type="button" className="websites-toolbar__clear" onClick={onClearSearch} aria-label={t('websites.search_clear')}>
+          <button type="button" className="toolbar__clear" onClick={onClearSearch} aria-label={t(`${namespace}.search_clear`)}>
             ×
           </button>
         ) : null}
       </div>
 
-      <div className="websites-toolbar__tags-wrapper">
+      <div className="toolbar__tags-wrapper">
         {sectionTags.length > 0 ? (
-          <div className="websites-toolbar__tags" aria-label={t('websites.tags_filter')}>
+          <div className="toolbar__tags" aria-label={t(`${namespace}.tags_filter`)}>
             <button
               type="button"
               className={`chip${selectedTag === null ? ' chip--active' : ''}`}
               onClick={() => onSelectTag(null)}
             >
-              {t('websites.filters.all')}
+              {t(`${namespace}.filters.all`)}
             </button>
             {sectionTags.map((tag) => (
               <button
@@ -112,18 +115,18 @@ export const WebsiteToolbar = ({
           </div>
         ) : null}
 
-        <div className="websites-toolbar__actions" ref={actionsRef}>
-          <div className="websites-inline-search">
+        <div className="toolbar__actions" ref={actionsRef}>
+          <div className="toolbar-inline-search">
             <button type="button" aria-label={t('search.placeholder')} className="toolbar-icon-button" onClick={toggleSearch}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="m20 20-3.5-3.5M16 10.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0Z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
             {showSearch ? (
-              <div className="websites-inline-search__box">
+              <div className="toolbar-inline-search__box">
                 <input
                   ref={searchInputRef}
-                  className="websites-toolbar__search-input"
+                  className="toolbar__search-input"
                   type="search"
                   value={searchQuery}
                   placeholder={t('search.placeholder')}
@@ -131,7 +134,7 @@ export const WebsiteToolbar = ({
                   onChange={onSearchChange}
                 />
                 {searchQuery ? (
-                  <button type="button" className="websites-toolbar__clear" onClick={onClearSearch} aria-label={t('websites.search_clear')}>
+                  <button type="button" className="toolbar__clear" onClick={onClearSearch} aria-label={t(`${namespace}.search_clear`)}>
                       ×
                     </button>
                 ) : null}
@@ -139,8 +142,8 @@ export const WebsiteToolbar = ({
             ) : null}
           </div>
 
-          <div className="websites-sort-menu">
-            <button type="button" aria-label={t('websites.sort_label')} className="toolbar-icon-button" onClick={toggleSortMenu}>
+          <div className="toolbar-sort-menu">
+            <button type="button" aria-label={t(`${namespace}.sort_label`)} className="toolbar-icon-button" onClick={toggleSortMenu}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M3 6h18M6 12h12M10 18h4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -148,13 +151,13 @@ export const WebsiteToolbar = ({
             {showSortMenu ? (
               <div className="sort-menu" role="menu">
                 <button type="button" className={`sort-menu__item${sortOrder === 'displayOrder' ? ' active' : ''}`} onClick={() => { setSortOrder('displayOrder'); setShowSortMenu(false); }}>
-                  {t('websites.sort.displayOrder')}
+                  {t(`${namespace}.sort.displayOrder`)}
                 </button>
                 <button type="button" className={`sort-menu__item${sortOrder === 'alpha' ? ' active' : ''}`} onClick={() => { setSortOrder('alpha'); setShowSortMenu(false); }}>
-                  {t('websites.sort.alpha')}
+                  {t(`${namespace}.sort.alpha`)}
                 </button>
                 <button type="button" className={`sort-menu__item${sortOrder === 'recent' ? ' active' : ''}`} onClick={() => { setSortOrder('recent'); setShowSortMenu(false); }}>
-                  {t('websites.sort.recency')}
+                  {t(`${namespace}.sort.recency`)}
                 </button>
               </div>
             ) : null}
@@ -165,4 +168,4 @@ export const WebsiteToolbar = ({
   )
 }
 
-export default WebsiteToolbar
+export default Toolbar

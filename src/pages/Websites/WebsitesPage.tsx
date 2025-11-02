@@ -6,7 +6,7 @@ import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { useT } from '../../shared/i18n'
 import { Pagination } from '../../shared/ui/Pagination'
 import { WebsiteCard } from './components/WebsiteCard'
-import WebsiteToolbar from './components/WebsiteToolbar'
+import { Toolbar } from '../../shared/components/Toolbar/Toolbar'
 import './websites.css'
 
 const ITEMS_PER_PAGE = 60
@@ -146,7 +146,7 @@ export const WebsitesPage = () => {
 
   return (
     <section className="page">
-      <WebsiteToolbar
+      <Toolbar
         sectionTags={sectionTags}
         selectedTag={selectedTag}
         onSelectTag={handleSelectTag}
@@ -155,6 +155,7 @@ export const WebsitesPage = () => {
         onClearSearch={handleClearSearch}
         sortOrder={sortOrder}
         setSortOrder={setSortOrder}
+        namespace="websites"
       />
 
       {loading ? (

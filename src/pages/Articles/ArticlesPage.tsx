@@ -5,7 +5,7 @@ import { useUIContext } from '../../shared/contexts/UIContext'
 import { useT } from '../../shared/i18n'
 import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { ArticleCard } from './components/ArticleCard'
-import ArticleToolbar from './components/ArticleToolbar'
+import { Toolbar } from '../../shared/components/Toolbar/Toolbar'
 import { Pagination } from '../../shared/ui/Pagination'
 import './articles.css'
 
@@ -141,7 +141,7 @@ export const ArticlesPage = () => {
 
   return (
     <section className="page">
-      <ArticleToolbar
+      <Toolbar
         sectionTags={sectionTags}
         selectedTag={selectedTag}
         onSelectTag={handleSelectTag}
@@ -150,6 +150,7 @@ export const ArticlesPage = () => {
         onClearSearch={handleClearSearch}
         sortOrder={sortOrder}
         setSortOrder={setSortOrder}
+        namespace="articles"
       />
 
       {loading ? (
