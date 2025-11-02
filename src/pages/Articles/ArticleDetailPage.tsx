@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/github.css'
 import { useParams, Link } from 'react-router-dom'
 import { getArticleById } from '../../shared/data/publicApi'
 import type { ArticleDetail } from '../../shared/data/types'
@@ -42,6 +44,24 @@ export const ArticleDetailPage = () => {
     // refetch when the article id changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
+
+  // Highlight code blocks after article content is rendered
+  useEffect(() => {
+    if (!article) return
+
+    // highlight.js will find <pre><code> blocks and highlight them.
+    // Run on next tick to ensure DOM is updated.
+    requestAnimationFrame(() => {
+      try {
+        hljs.highlightAll()
+      } catch (e) {
+        // swallow highlighting errors to avoid breaking the page
+        // (e.g., unknown language or malformed nodes)
+        // eslint-disable-next-line no-console
+        console.error('highlight.js error', e)
+      }
+    })
+  }, [article])
 
   if (loading) {
     return (
