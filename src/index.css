@@ -146,6 +146,11 @@ img {
 }
 
 .site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
   background: var(--color-surface);
   box-shadow: var(--shadow-sm);
   height: var(--header-height);
@@ -527,7 +532,10 @@ img {
 
 .layout__content {
   flex: 1;
-  padding: 1rem;
+  padding-top: calc(var(--header-height) + 1rem);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;  
   max-width: 100%;
   width: 100%;
   margin: 0 auto;
@@ -927,7 +935,6 @@ img {
   .site-header {
     padding: 0.75rem 1rem;
     justify-content: space-between;
-    position: relative;
   }
 
   .site-header__menu-toggle {
@@ -969,6 +976,7 @@ img {
 
   .layout__content {
     padding: 1rem;
+    padding-top: calc(var(--header-height) + 1rem);
   }
 
   .page__title {
@@ -983,6 +991,7 @@ img {
 
   .layout__content {
     padding: 1rem 2rem;
+    padding-top: calc(var(--header-height) + 1rem);
   }
 
 }
