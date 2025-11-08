@@ -69,6 +69,7 @@ export interface MediaItem {
   id: string
   name?: string
   title?: string
+  subtitle?: string | null
   description?: string | null
   url: string
   thumbnailUrl?: string | null
@@ -76,6 +77,7 @@ export interface MediaItem {
   coverImageUrl?: string | null
   coverImageOriginalUrl?: string | null
   altText?: string | null
+  captionsUrl?: string | null
   tags: string
   lang: 'EN' | 'ZH'
   displayOrder: number

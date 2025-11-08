@@ -9,8 +9,8 @@ import type {
   Website,
 } from './types'
 
-const DEV_DEFAULT_BASE_URL = '/api/v1/public/'
-const PROD_DEFAULT_BASE_URL = 'https://www.ganjianping.com/api/v1/public/'
+const DEV_DEFAULT_BASE_URL = '/blog/v1/public/'
+const PROD_DEFAULT_BASE_URL = 'https://www.ganjianping.com/blog/v1/public/'
 
 const fallbackBaseUrl = import.meta.env.DEV ? DEV_DEFAULT_BASE_URL : PROD_DEFAULT_BASE_URL
 
