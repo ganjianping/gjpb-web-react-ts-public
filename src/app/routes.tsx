@@ -16,34 +16,34 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate to="/public/websites" replace />,
+        element: <Navigate to="public/websites" replace />,
       },
       {
-        path: '/public/websites',
+        path: 'public/websites',
         element: <WebsitesPage />,
       },
       {
-        path: '/public/articles',
+        path: 'public/articles',
         element: <ArticlesPage />,
       },
       {
-        path: '/public/articles/:id',
+        path: 'public/articles/:id',
         element: <ArticleDetailPage />,
       },
       {
-        path: '/public/images',
+        path: 'public/images',
         element: <ImagesPage />,
       },
       {
-        path: '/public/audios',
+        path: 'public/audios',
         element: <AudiosPage />,
       },
       {
-        path: '/public/videos',
+        path: 'public/videos',
         element: <VideosPage />,
       },
       {
-        path: '/public/files',
+        path: 'public/files',
         element: <FilesPage />,
       },
     ],
@@ -52,4 +52,6 @@ export const router = createBrowserRouter([
     path: '*',
     element: <NotFoundPage />,
   },
-])
+], {
+  basename: '/web',
+})
