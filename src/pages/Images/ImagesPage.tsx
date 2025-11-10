@@ -10,8 +10,6 @@ import { Pagination } from '../../shared/ui/Pagination'
 import { Toolbar } from '../../shared/components/Toolbar/Toolbar'
 import './images.css'
 
-const ITEMS_PER_PAGE = 60
-
 const normalizeText = (value: string) => value.toLowerCase()
 
 const matchesSearch = (item: MediaItem, query: string) => {
@@ -48,6 +46,9 @@ export const ImagesPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
   const [sortOrder, setSortOrder] = useState<SortOrder>('displayOrder')
+  const [pageSize, setPageSize] = useState(50)
+  const [totalElements, setTotalElements] = useState(0)
+  const [totalPages, setTotalPages] = useState(1)
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
   const sectionTags = getTags('image_tags')
   const t = useT()
@@ -59,8 +60,10 @@ export const ImagesPage = () => {
       setError(null)
 
       try {
-        const response = await getImages(0, 200)
+        const response = await getImages(currentPage - 1, pageSize)
         setItems(response.data.content)
+        setTotalElements(response.data.totalElements)
+        setTotalPages(response.data.totalPages)
       } catch (err) {
         const message = err instanceof Error ? err.message : failedLabel
         setError(message)
@@ -70,63 +73,59 @@ export const ImagesPage = () => {
     }
 
     void fetchData()
-  }, [failedLabel])
+  }, [failedLabel, pageSize, currentPage])
 
   useEffect(() => {
     setCurrentPage(1)
   }, [language])
 
-  const filteredItems = useMemo(
+  const displayItems = useMemo(
     () => {
       const trimmedQuery = searchQuery.trim()
-      return items
-        .filter((item) => item.lang === language)
-        .filter((item) => matchesSearch(item, trimmedQuery))
-        .filter((item) => hasTag(item, selectedTag))
+      let filtered = items.filter((item) => item.lang === language)
+      
+      if (trimmedQuery) {
+        filtered = filtered.filter((item) => matchesSearch(item, trimmedQuery))
+      }
+      
+      if (selectedTag) {
+        filtered = filtered.filter((item) => hasTag(item, selectedTag))
+      }
+
+      // Sort items
+      switch (sortOrder) {
+        case 'displayOrder':
+          filtered.sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
+          break
+        case 'alpha':
+          filtered.sort((a, b) => {
+            const aName = a.name ?? a.title ?? ''
+            const bName = b.name ?? b.title ?? ''
+            return aName.localeCompare(bName, language === 'ZH' ? 'zh-CN' : 'en', { sensitivity: 'base' })
+          })
+          break
+        case 'recent':
+          filtered.sort((a, b) => {
+            const aTime = new Date(a.updatedAt ?? '').getTime()
+            const bTime = new Date(b.updatedAt ?? '').getTime()
+            return Number.isNaN(bTime - aTime) ? 0 : bTime - aTime
+          })
+          break
+        default:
+          filtered.sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
+          break
+      }
+
+      return filtered
     },
-    [items, language, searchQuery, selectedTag],
+    [items, language, searchQuery, selectedTag, sortOrder],
   )
 
-  const sortedItems = useMemo(() => {
-    const base = [...filteredItems]
-
-    switch (sortOrder) {
-      case 'displayOrder':
-        base.sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
-        break
-      case 'alpha':
-        base.sort((a, b) => {
-          const aName = a.name ?? a.title ?? ''
-          const bName = b.name ?? b.title ?? ''
-          return aName.localeCompare(bName, language === 'ZH' ? 'zh-CN' : 'en', { sensitivity: 'base' })
-        })
-        break
-      case 'recent':
-        base.sort((a, b) => {
-          const aTime = new Date(a.updatedAt ?? '').getTime()
-          const bTime = new Date(b.updatedAt ?? '').getTime()
-          return Number.isNaN(bTime - aTime) ? 0 : bTime - aTime
-        })
-        break
-      default:
-        base.sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
-        break
-    }
-
-    return base
-  }, [filteredItems, language, sortOrder])
-
-  const totalPages = Math.max(1, Math.ceil(sortedItems.length / ITEMS_PER_PAGE))
   useEffect(() => {
-    if (currentPage > totalPages) {
+    if (currentPage > totalPages && totalPages > 0) {
       setCurrentPage(totalPages)
     }
   }, [currentPage, totalPages])
-
-  const safePage = Math.min(currentPage, totalPages)
-  const startIndex = (safePage - 1) * ITEMS_PER_PAGE
-  const endIndex = startIndex + ITEMS_PER_PAGE
-  const paginatedItems = sortedItems.slice(startIndex, endIndex)
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value)
@@ -140,6 +139,11 @@ export const ImagesPage = () => {
 
   const handleSelectTag = (tag: string | null) => {
     setSelectedTag(tag)
+    setCurrentPage(1)
+  }
+
+  const handlePageSizeChange = (newPageSize: number) => {
+    setPageSize(newPageSize)
     setCurrentPage(1)
   }
 
@@ -173,21 +177,28 @@ export const ImagesPage = () => {
       {!loading && !error ? (
         <>
           <div className="grid grid--images">
-            {paginatedItems.map((item, index) => (
+            {displayItems.map((item, index) => (
               <ImageCard key={item.id} item={item} onClick={() => setSelectedImageIndex(index)} />
             ))}
           </div>
-          {paginatedItems.length === 0 ? <div className="status status--empty">{t('images.empty')}</div> : null}
-          <Pagination currentPage={safePage} totalPages={totalPages} onPageChange={setCurrentPage} />
+          {displayItems.length === 0 ? <div className="status status--empty">{t('images.empty')}</div> : null}
+          <Pagination 
+            currentPage={currentPage} 
+            totalPages={totalPages} 
+            onPageChange={setCurrentPage}
+            totalElements={totalElements}
+            pageSize={pageSize}
+            onPageSizeChange={handlePageSizeChange}
+          />
         </>
       ) : null}
 
       {selectedImageIndex !== null && (
         <ImagePreview
-          image={paginatedItems[selectedImageIndex]}
-          allImages={paginatedItems}
+          image={displayItems[selectedImageIndex]}
+          allImages={displayItems}
           onClose={() => setSelectedImageIndex(null)}
-          onNext={() => setSelectedImageIndex((prev) => (prev !== null && prev < paginatedItems.length - 1 ? prev + 1 : prev))}
+          onNext={() => setSelectedImageIndex((prev) => (prev !== null && prev < displayItems.length - 1 ? prev + 1 : prev))}
           onPrevious={() => setSelectedImageIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : prev))}
         />
       )}
