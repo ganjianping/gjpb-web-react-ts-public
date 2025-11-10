@@ -39,6 +39,12 @@ const baseTranslations: Translations = {
   // Common card actions
   'website.visit': { EN: 'Visit', ZH: '访问' },
   'common.source': { EN: 'Source', ZH: '来源' },
+  // Pagination
+  'pagination.ariaLabel': { EN: 'Pagination', ZH: '分页' },
+  'pagination.prev': { EN: 'Prev', ZH: '上一页' },
+  'pagination.next': { EN: 'Next', ZH: '下一页' },
+  'pagination.perPage': { EN: 'Per page', ZH: '每页' },
+  'pagination.of': { EN: 'of', ZH: '共' },
 }
 
 // Merge page-specific translations so pages can own their keys.
