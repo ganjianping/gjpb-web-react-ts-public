@@ -58,7 +58,7 @@ export const VideosPage = () => {
       setError(null)
 
       try {
-        const response = await getVideos(currentPage - 1, pageSize)
+        const response = await getVideos(currentPage - 1, pageSize, language)
         setItems(response.data.content)
         setTotalElements(response.data.totalElements)
         setTotalPages(response.data.totalPages)
@@ -71,7 +71,7 @@ export const VideosPage = () => {
     }
 
     void fetchData()
-  }, [failedLabel, currentPage, pageSize])
+  }, [failedLabel, currentPage, pageSize, language])
 
   useEffect(() => {
     setCurrentPage(1)

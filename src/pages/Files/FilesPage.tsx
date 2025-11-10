@@ -58,7 +58,7 @@ export const FilesPage = () => {
       setError(null)
 
       try {
-        const response = await getFiles(currentPage - 1, pageSize)
+        const response = await getFiles(currentPage - 1, pageSize, language)
         setItems(response.data.content)
         setTotalElements(response.data.totalElements)
         setTotalPages(response.data.totalPages)
@@ -71,7 +71,7 @@ export const FilesPage = () => {
     }
 
     void fetchData()
-  }, [failedLabel, currentPage, pageSize])
+  }, [failedLabel, currentPage, pageSize, language])
 
   useEffect(() => {
     setCurrentPage(1)

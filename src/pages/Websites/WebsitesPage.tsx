@@ -58,7 +58,7 @@ export const WebsitesPage = () => {
       setError(null)
 
       try {
-        const response = await getWebsites(currentPage - 1, pageSize)
+        const response = await getWebsites(currentPage - 1, pageSize, undefined, undefined, language)
         setItems(response.data.content)
         setTotalElements(response.data.totalElements)
         setTotalPages(response.data.totalPages)
@@ -71,7 +71,7 @@ export const WebsitesPage = () => {
     }
 
     void fetchData()
-  }, [failedLabel, pageSize, currentPage])
+  }, [failedLabel, pageSize, currentPage, language])
 
   useEffect(() => {
     setCurrentPage(1)

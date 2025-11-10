@@ -60,7 +60,7 @@ export const ImagesPage = () => {
       setError(null)
 
       try {
-        const response = await getImages(currentPage - 1, pageSize)
+        const response = await getImages(currentPage - 1, pageSize, language)
         setItems(response.data.content)
         setTotalElements(response.data.totalElements)
         setTotalPages(response.data.totalPages)
@@ -73,7 +73,7 @@ export const ImagesPage = () => {
     }
 
     void fetchData()
-  }, [failedLabel, pageSize, currentPage])
+  }, [failedLabel, pageSize, currentPage, language])
 
   useEffect(() => {
     setCurrentPage(1)

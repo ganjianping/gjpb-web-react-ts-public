@@ -66,24 +66,25 @@ export const getWebsites = (
   size = 60,
   search?: string,
   tag?: string,
+  lang?: string,
 ) =>
   // Add optional search and tag query params so callers can request server-side filtering
-  fetchJson<ApiPagedResponse<Website>>(createUrl('cms/websites', { page, size, search, tag }))
+  fetchJson<ApiPagedResponse<Website>>(createUrl('cms/websites', { page, size, search, tag, lang }))
 
-export const getArticles = (page = 0, size = 60) =>
-  fetchJson<ApiPagedResponse<ArticleSummary>>(createUrl('cms/articles', { page, size }))
+export const getArticles = (page = 0, size = 60, lang?: string) =>
+  fetchJson<ApiPagedResponse<ArticleSummary>>(createUrl('cms/articles', { page, size, lang }))
 
 export const getArticleById = (id: string) =>
   fetchJson<ApiListResponse<ArticleDetail>>(createUrl(`cms/articles/${id}`))
 
-export const getImages = (page = 0, size = 60) =>
-  fetchJson<ApiPagedResponse<MediaItem>>(createUrl('cms/images', { page, size }))
+export const getImages = (page = 0, size = 60, lang?: string) =>
+  fetchJson<ApiPagedResponse<MediaItem>>(createUrl('cms/images', { page, size, lang }))
 
-export const getVideos = (page = 0, size = 60) =>
-  fetchJson<ApiPagedResponse<MediaItem>>(createUrl('cms/videos', { page, size }))
+export const getVideos = (page = 0, size = 60, lang?: string) =>
+  fetchJson<ApiPagedResponse<MediaItem>>(createUrl('cms/videos', { page, size, lang }))
 
-export const getAudios = (page = 0, size = 60) =>
-  fetchJson<ApiPagedResponse<MediaItem>>(createUrl('cms/audios', { page, size }))
+export const getAudios = (page = 0, size = 60, lang?: string) =>
+  fetchJson<ApiPagedResponse<MediaItem>>(createUrl('cms/audios', { page, size, lang }))
 
-export const getFiles = (page = 0, size = 60) =>
-  fetchJson<ApiPagedResponse<FileItem>>(createUrl('cms/files', { page, size }))
+export const getFiles = (page = 0, size = 60, lang?: string) =>
+  fetchJson<ApiPagedResponse<FileItem>>(createUrl('cms/files', { page, size, lang }))
