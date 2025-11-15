@@ -79,6 +79,7 @@ export interface MediaItem {
   altText?: string | null
   captionsUrl?: string | null
   tags: string
+  artist?: string
   lang: 'EN' | 'ZH'
   displayOrder: number
   updatedAt: string

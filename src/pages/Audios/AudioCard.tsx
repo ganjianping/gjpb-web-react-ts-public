@@ -7,15 +7,8 @@ interface AudioCardProps {
   onTogglePlayer: (item: MediaItem) => void
 }
 
-const parseTags = (tags: string) =>
-  tags
-    .split(',')
-    .map((tag) => tag.trim())
-    .filter(Boolean)
-
 export const AudioCard = ({ item, isActive, onTogglePlayer }: AudioCardProps) => {
   const t = useT()
-  const tagList = parseTags(item.tags)
 
   return (
     <article className="card audio-card">
@@ -38,13 +31,9 @@ export const AudioCard = ({ item, isActive, onTogglePlayer }: AudioCardProps) =>
         </div>
         <div className="audio-card__info">
           <h3 className="audio-card__title">{item.title ?? item.name ?? t('untitled.audio')}</h3>
-          <div className="audio-card__tags">
-            {tagList.map((tag) => (
-              <span key={tag} className="tag">
-                {tag}
-              </span>
-            ))}
-          </div>
+          {item.artist && (
+            <div className="audio-card__artist">{item.artist}</div>
+          )}
         </div>
       </div>
     </article>

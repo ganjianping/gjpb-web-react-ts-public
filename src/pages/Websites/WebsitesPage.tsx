@@ -45,7 +45,7 @@ export const WebsitesPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
   const [sortOrder, setSortOrder] = useState<SortOrder>('displayOrder')
-  const [pageSize, setPageSize] = useState(50)
+  const [pageSize, setPageSize] = useState(500)
   const [totalElements, setTotalElements] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
   const sectionTags = getTags('website_tags')

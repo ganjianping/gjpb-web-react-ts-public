@@ -101,18 +101,10 @@
   line-height: 1.4;
 }
 
-.audio-card__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.audio-card__tags .tag {
-  color: #666;
-  background: var(--color-surface-alt);
-  padding: 0.25rem 0.5rem;
-  border-radius: var(--radius-xs);
-  font-size: 0.85rem;
+.audio-card__artist {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .audio-card__player-wrapper {
