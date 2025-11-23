@@ -7,10 +7,23 @@ export default defineConfig({
   server: {
     port: 3001,
     host: true,
+    cors: true,
     proxy: {
-      '/api': {
-        target: 'http://localhost:8081',
+      '/blog': {
+        target: 'https://www.ganjianping.com',
         changeOrigin: true,
+        secure: false,
+        configure: (proxy, _options) => {
+          proxy.on('error', (err, _req, _res) => {
+            console.log('proxy error', err);
+          });
+          proxy.on('proxyReq', (proxyReq, _req, _res) => {
+            console.log('Proxying request to:', proxyReq.path);
+          });
+          proxy.on('proxyRes', (proxyRes, _req, _res) => {
+            console.log('Proxy response status:', proxyRes.statusCode);
+          });
+        },
       },
     },
   },
