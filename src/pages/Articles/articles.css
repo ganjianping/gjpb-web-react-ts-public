@@ -198,5 +198,9 @@
   .article-detail__title {
     font-size: 1.5rem;
   }
+  
+  .article-card__media img {
+    border-radius: 0;
+  }
 }
 

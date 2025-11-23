@@ -95,3 +95,9 @@
   color: var(--color-muted);
   font-size: 0.95rem;
 }
+
+@media (max-width: 767px) {
+  .video-card__media {
+    border-radius: 0;
+  }
+}

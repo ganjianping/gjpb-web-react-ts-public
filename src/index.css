@@ -1086,6 +1086,15 @@ img {
     padding: 0.3rem 0.6rem;
     font-size: 0.9rem;
   }
+
+  .layout__content {
+    padding: 0;
+    padding-top: calc(var(--header-height) + 1rem);
+  }
+
+  .card {
+    border: 0;
+  }
 }
 
 @media (min-width: 768px) {
