@@ -53,5 +53,5 @@ export const router = createBrowserRouter([
     element: <NotFoundPage />,
   },
 ], {
-  basename: '/web',
+  basename: '/',
 })

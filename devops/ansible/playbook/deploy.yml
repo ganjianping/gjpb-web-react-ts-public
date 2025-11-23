@@ -3,16 +3,16 @@
   become: yes
       
   tasks:
-    - name: Create gjpb-web-reactjs-app directory
+    - name: Create www.ganjianping.com directory
       file:
-        path: /var/www/gjpb/web  # Change this path to your desired directory
+        path: /we/var/www.ganjianping.com  # Change this path to your desired directory
         state: directory
         mode: '0755'
 
-    - name: Upload build to /var/www/gjpb/web
+    - name: Upload build to /var/www/www.ganjianping.com
       copy:
         src: "../../../dist/"
-        dest: "/var/www/gjpb/web"
+        dest: "/var/www/www.ganjianping.com"
         mode: 0755
       notify: Restart Nginx
 
