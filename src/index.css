@@ -1007,6 +1007,15 @@ img {
 }
 
 /* Mobile responsive styles */
+@media (max-width: 450px) {
+  .layout__content {
+    padding: 0;
+  }
+  .card {
+    border: 0;
+  }
+}
+
 @media (max-width: 767px) {
   .site-header {
     padding: 0.75rem 1rem;
@@ -1085,15 +1094,6 @@ img {
   .pagination__page-size-select {
     padding: 0.3rem 0.6rem;
     font-size: 0.9rem;
-  }
-
-  .layout__content {
-    padding: 0;
-    padding-top: calc(var(--header-height) + 1rem);
-  }
-
-  .card {
-    border: 0;
   }
 }
 

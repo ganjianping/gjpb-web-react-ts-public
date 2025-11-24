@@ -200,7 +200,7 @@ figure {
   margin: 0;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 450px) {
   figure {
     display: block;
     margin-block-start: 0;
@@ -208,7 +208,7 @@ figure {
     margin-inline-start: 0;
     margin-inline-end: 0;
   }
-  .card {
+  .image-card {
     border-radius: 0;
   }
   .image-card__image {

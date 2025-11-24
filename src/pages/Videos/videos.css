@@ -96,8 +96,13 @@
   font-size: 0.95rem;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 450px) {
   .video-card__media {
     border-radius: 0;
   }
+  .video-card__media img,
+  .video-card__player {
+    height: 240px;
+  }
+
 }

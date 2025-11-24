@@ -158,3 +158,30 @@
 .audio-card__subtitle p:last-child {
   margin-bottom: 0;
 }
+
+@media (max-width: 450px) {
+  .audio-card {
+    margin-left: 8px;
+  }
+  .audio-card__media {
+    border-radius: 50px;
+  }
+  .grid--audios .card {
+    border-radius: 40px 0 0 40px;
+  }
+  .toolbar {
+    margin-top: 80px;
+  }
+  .article-detail {
+    margin-top: 75px;
+  }
+}
+
+@media (min-width: 450px) {
+  .audio-card__media {
+    border-radius: 50px;
+  }
+  .grid--audios .card {
+    border-radius: 50px ;
+  }
+}

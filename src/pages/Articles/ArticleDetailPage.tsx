@@ -91,11 +91,12 @@ export const ArticleDetailPage = () => {
     <section className="page article-detail">
       <div className="article-detail__header">
         <Link to="/public/articles" className="article-detail__back-link">
-          ← {t('articles.back_to_list')}
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
         </Link>
+        <h1 className="article-detail__title">{article.title}</h1>
       </div>
-      
-      <h1 className="article-detail__title">{article.title}</h1>
 
       {article.coverImageUrl ? (
         <div className="article-detail__cover">
