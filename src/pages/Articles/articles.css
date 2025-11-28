@@ -201,6 +201,19 @@
   font-size: 0.9em;
 }
 
+/* Video embeds styling */
+.article-detail__body .video-embed {
+  display: block;
+  margin: 1.5rem auto;
+  border-radius: var(--radius-sm);
+  border: none;
+}
+
+.article-detail__body .youtube-embed {
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
 .article-detail__actions {
   display: flex;
   gap: 1rem;

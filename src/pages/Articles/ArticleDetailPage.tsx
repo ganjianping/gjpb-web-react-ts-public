@@ -45,7 +45,7 @@ export const ArticleDetailPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
-  // Highlight code blocks after article content is rendered
+  // Highlight code blocks and process video embeds after article content is rendered
   useEffect(() => {
     if (!article) return
 
@@ -60,6 +60,28 @@ export const ArticleDetailPage = () => {
         // eslint-disable-next-line no-console
         console.error('highlight.js error', e)
       }
+
+      // Process video embeds: convert <div> with src to <iframe>
+      const videoEmbeds = document.querySelectorAll('.article-detail__body .video-embed[data-provider="youtube"]')
+      videoEmbeds.forEach((div) => {
+        const src = div.getAttribute('src')
+        const width = div.getAttribute('width') || '600'
+        const height = div.getAttribute('height') || '400'
+        
+        if (src && div instanceof HTMLElement) {
+          const iframe = document.createElement('iframe')
+          iframe.src = src
+          iframe.width = width
+          iframe.height = height
+          iframe.className = div.className
+          iframe.style.cssText = div.style.cssText
+          iframe.setAttribute('frameborder', '0')
+          iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture')
+          iframe.setAttribute('allowfullscreen', 'true')
+          
+          div.parentNode?.replaceChild(iframe, div)
+        }
+      })
     })
   }, [article])
 
