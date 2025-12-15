@@ -76,6 +76,10 @@
   border-radius: 0;
 }
 
+.article-detail--skeleton {
+  pointer-events: none;
+}
+
 /* Article Detail Page */
 .article-detail {
   max-width: 1280px;

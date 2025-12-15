@@ -87,10 +87,38 @@ export const ArticleDetailPage = () => {
 
   if (loading) {
     return (
-      <section className="page article-detail">
-        <div className="status status--loading">
-          <span>{t('loading')}</span>
+      <section className="page article-detail article-detail--skeleton">
+        <div className="article-detail__header">
+          <div className="skeleton skeleton--icon" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
+          <div className="skeleton skeleton--line skeleton--line-lg" style={{ height: '2rem', flex: 1, maxWidth: '60%', margin: '0 auto' }} />
         </div>
+
+        <div className="article-detail__cover">
+          <div className="skeleton skeleton--image" style={{ width: '100%', height: '400px', borderRadius: '20px' }} />
+        </div>
+
+        <article className="article-detail__content">
+          <div className="article-detail__meta" style={{ marginTop: '1.5rem', marginBottom: '2rem' }}>
+            <div className="skeleton skeleton--pill" style={{ width: '120px' }} />
+            <div className="skeleton skeleton--pill" style={{ width: '150px' }} />
+            <div className="skeleton skeleton--pill" style={{ width: '100px' }} />
+          </div>
+
+          <div className="article-detail__body">
+            <div className="skeleton skeleton--line" style={{ width: '100%', marginBottom: '1rem' }} />
+            <div className="skeleton skeleton--line" style={{ width: '90%', marginBottom: '1rem' }} />
+            <div className="skeleton skeleton--line" style={{ width: '95%', marginBottom: '1rem' }} />
+            <div className="skeleton skeleton--line" style={{ width: '85%', marginBottom: '1rem' }} />
+            <div className="skeleton skeleton--line" style={{ width: '92%', marginBottom: '1rem' }} />
+            <div className="skeleton skeleton--line" style={{ width: '40%', marginBottom: '2rem' }} />
+            
+            <div className="skeleton skeleton--image" style={{ width: '100%', height: '300px', marginBottom: '2rem' }} />
+            
+            <div className="skeleton skeleton--line" style={{ width: '100%', marginBottom: '1rem' }} />
+            <div className="skeleton skeleton--line" style={{ width: '95%', marginBottom: '1rem' }} />
+            <div className="skeleton skeleton--line" style={{ width: '90%', marginBottom: '1rem' }} />
+          </div>
+        </article>
       </section>
     )
   }
