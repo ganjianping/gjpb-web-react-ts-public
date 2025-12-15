@@ -145,6 +145,8 @@ export const VideosPage = () => {
     setCurrentPage(1)
   }
 
+  const skeletonItems = Array.from({ length: 8 }, (_, index) => index)
+
   return (
     <section className="page">
       <Toolbar
@@ -160,8 +162,18 @@ export const VideosPage = () => {
       />
 
       {loading ? (
-        <div className="status status--loading">
-          <span>{t('loading')}</span>
+        <div className="grid grid--videos">
+          {skeletonItems.map((item) => (
+            <div key={item} className="card video-card video-card--skeleton" aria-hidden="true">
+              <div className="video-card__media-wrapper">
+                <div className="skeleton skeleton--image" style={{ height: '180px', borderRadius: 'var(--radius-sm) var(--radius-sm) 0 0' }} />
+              </div>
+              <div className="video-card__body" style={{ marginTop: '1rem' }}>
+                <div className="skeleton skeleton--line skeleton--line-lg" />
+                <div className="skeleton skeleton--line skeleton--line-sm" />
+              </div>
+            </div>
+          ))}
         </div>
       ) : null}
 

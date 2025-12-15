@@ -141,6 +141,8 @@ export const FilesPage = () => {
     setCurrentPage(1)
   }
 
+  const skeletonItems = Array.from({ length: 8 }, (_, index) => index)
+
   return (
     <section className="page">
       <Toolbar
@@ -156,8 +158,13 @@ export const FilesPage = () => {
       />
 
       {loading ? (
-        <div className="status status--loading">
-          <span>{t('loading')}</span>
+        <div className="grid grid--files">
+          {skeletonItems.map((item) => (
+            <div key={item} className="card file-card file-card--skeleton" aria-hidden="true">
+              <div className="skeleton skeleton--line skeleton--line-lg" style={{ flex: 1 }} />
+              <div className="skeleton skeleton--icon" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
+            </div>
+          ))}
         </div>
       ) : null}
 

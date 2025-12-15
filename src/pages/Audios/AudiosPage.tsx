@@ -156,6 +156,7 @@ export const AudiosPage = () => {
   }, [activeItem?.id])
 
   const activeCaptionsUrl = (activeItem as any)?.captionsUrl as string | undefined
+  const skeletonItems = Array.from({ length: 8 }, (_, index) => index)
 
   return (
     <section className="page">
@@ -172,8 +173,20 @@ export const AudiosPage = () => {
       />
 
       {loading ? (
-        <div className="status status--loading">
-          <span>{t('loading')}</span>
+        <div className="grid grid--audios">
+          {skeletonItems.map((item) => (
+            <div key={item} className="card audio-card audio-card--skeleton" aria-hidden="true">
+              <div className="audio-card__content">
+                <div className="audio-card__media-wrapper">
+                  <div className="skeleton skeleton--image" style={{ width: '90px', height: '90px', borderRadius: '50px' }} />
+                </div>
+                <div className="audio-card__info">
+                  <div className="skeleton skeleton--line skeleton--line-lg" />
+                  <div className="skeleton skeleton--line skeleton--line-sm" />
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       ) : null}
 

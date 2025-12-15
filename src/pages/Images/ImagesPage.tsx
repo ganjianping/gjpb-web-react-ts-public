@@ -147,6 +147,8 @@ export const ImagesPage = () => {
     setCurrentPage(1)
   }
 
+  const skeletonItems = Array.from({ length: 8 }, (_, index) => index)
+
   return (
     <section className="page">
       <Toolbar
@@ -162,8 +164,18 @@ export const ImagesPage = () => {
       />
 
       {loading ? (
-        <div className="status status--loading">
-          <span>{t('loading')}</span>
+        <div className="grid grid--images">
+          {skeletonItems.map((item) => (
+            <figure key={item} className="card image-card image-card--skeleton" aria-hidden="true">
+              <div className="image-card__media">
+                <div className="skeleton skeleton--image" />
+              </div>
+              <figcaption className="image-card__overlay image-card__overlay--skeleton">
+                <div className="skeleton skeleton--line skeleton--line-lg" />
+                <div className="skeleton skeleton--line skeleton--line-sm" />
+              </figcaption>
+            </figure>
+          ))}
         </div>
       ) : null}
 

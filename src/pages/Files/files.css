@@ -47,3 +47,7 @@
 .file-card__download-button:active {
   transform: scale(0.96);
 }
+
+.file-card--skeleton {
+  pointer-events: none;
+}

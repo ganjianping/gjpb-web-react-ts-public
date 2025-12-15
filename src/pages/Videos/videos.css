@@ -96,6 +96,10 @@
   font-size: 0.95rem;
 }
 
+.video-card--skeleton {
+  pointer-events: none;
+}
+
 @media (max-width: 450px) {
   .video-card__media {
     border-radius: 0;
