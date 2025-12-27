@@ -11,6 +11,7 @@ export default defineConfig({
     proxy: {
       '/blog': {
         target: 'https://www.ganjianping.com',
+        // target: 'http://localhost:8082',
         changeOrigin: true,
         secure: false,
         configure: (proxy, _options) => {

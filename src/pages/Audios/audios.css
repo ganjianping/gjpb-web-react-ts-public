@@ -21,8 +21,8 @@
 }
 
 .audio-card__media {
-  width: 90px;
-  height: 90px;
+  width: 80px;
+  height: 80px;
   border-radius: var(--radius-sm);
   overflow: hidden;
   background: var(--color-surface-alt);
@@ -187,5 +187,8 @@
   }
   .grid--audios .card {
     border-radius: 50px ;
+  }
+  .audios-page .grid {
+    gap: 2.5rem;
   }
 }

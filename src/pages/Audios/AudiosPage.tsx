@@ -155,11 +155,27 @@ export const AudiosPage = () => {
     setShowSubtitle(false)
   }, [activeItem?.id])
 
+  const handleAudioEnded = () => {
+    if (displayItems.length === 0) return
+
+    let nextItem: MediaItem
+    if (displayItems.length === 1) {
+      nextItem = displayItems[0]
+    } else {
+      do {
+        const randomIndex = Math.floor(Math.random() * displayItems.length)
+        nextItem = displayItems[randomIndex]
+      } while (nextItem.id === activeItem?.id)
+    }
+
+    setActiveItem(nextItem)
+  }
+
   const activeCaptionsUrl = (activeItem as any)?.captionsUrl as string | undefined
   const skeletonItems = Array.from({ length: 8 }, (_, index) => index)
 
   return (
-    <section className="page">
+    <section className="page audios-page">
       <Toolbar
         sectionTags={sectionTags}
         selectedTag={selectedTag}
@@ -202,7 +218,14 @@ export const AudiosPage = () => {
           {activeItem ? (
             <div className="audio-card__player-wrapper">
               <div className="audio-card__player-controls">
-                <audio key={activeItem.id} className="audio-card__player" controls autoPlay preload="none">
+                <audio
+                  key={activeItem.id}
+                  className="audio-card__player"
+                  controls
+                  autoPlay
+                  preload="none"
+                  onEnded={handleAudioEnded}
+                >
                   <source src={activeItem.url} />
                   {/* include a captions track element (src may be empty if not available) */}
                   <track kind="captions" srcLang="en" src={activeCaptionsUrl ?? ''} />
