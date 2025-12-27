@@ -5,6 +5,7 @@ import { useUIContext } from '../../shared/contexts/UIContext'
 import { useT } from '../../shared/i18n'
 import { useAppSettings } from '../../shared/contexts/AppSettingsContext'
 import { AudioCard } from './AudioCard'
+import { AudioPlayer } from './AudioPlayer'
 import { Pagination } from '../../shared/ui/Pagination'
 import { Toolbar } from '../../shared/components/Toolbar/Toolbar'
 import './audios.css'
@@ -155,6 +156,22 @@ export const AudiosPage = () => {
     setShowSubtitle(false)
   }, [activeItem?.id])
 
+  const handlePrevious = () => {
+    if (displayItems.length === 0 || !activeItem) return
+    const currentIndex = displayItems.findIndex((item) => item.id === activeItem.id)
+    if (currentIndex === -1) return
+    const prevIndex = (currentIndex - 1 + displayItems.length) % displayItems.length
+    setActiveItem(displayItems[prevIndex])
+  }
+
+  const handleNext = () => {
+    if (displayItems.length === 0 || !activeItem) return
+    const currentIndex = displayItems.findIndex((item) => item.id === activeItem.id)
+    if (currentIndex === -1) return
+    const nextIndex = (currentIndex + 1) % displayItems.length
+    setActiveItem(displayItems[nextIndex])
+  }
+
   const handleAudioEnded = () => {
     if (displayItems.length === 0) return
 
@@ -171,7 +188,6 @@ export const AudiosPage = () => {
     setActiveItem(nextItem)
   }
 
-  const activeCaptionsUrl = (activeItem as any)?.captionsUrl as string | undefined
   const skeletonItems = Array.from({ length: 8 }, (_, index) => index)
 
   return (
@@ -215,42 +231,6 @@ export const AudiosPage = () => {
 
       {!loading && !error ? (
         <>
-          {activeItem ? (
-            <div className="audio-card__player-wrapper">
-              <div className="audio-card__player-controls">
-                <audio
-                  key={activeItem.id}
-                  className="audio-card__player"
-                  controls
-                  autoPlay
-                  preload="none"
-                  onEnded={handleAudioEnded}
-                >
-                  <source src={activeItem.url} />
-                  {/* include a captions track element (src may be empty if not available) */}
-                  <track kind="captions" srcLang="en" src={activeCaptionsUrl ?? ''} />
-                </audio>
-                {activeItem.subtitle ? (
-                  <button
-                    type="button"
-                    className="audio-card__subtitle-button"
-                    onClick={() => setShowSubtitle((prev) => !prev)}
-                    aria-pressed={showSubtitle}
-                    aria-label={showSubtitle ? 'Hide subtitles' : 'Show subtitles'}
-                    title={showSubtitle ? 'Hide subtitles' : 'Show subtitles'}
-                  >
-                    CC
-                  </button>
-                ) : null}
-              </div>
-              {showSubtitle && activeItem.subtitle ? (
-                <div
-                  className="audio-card__subtitle"
-                  dangerouslySetInnerHTML={{ __html: activeItem.subtitle }}
-                />
-              ) : null}
-            </div>
-          ) : null}
           <div className="grid grid--audios">
             {displayItems.map((item) => (
               <AudioCard
@@ -270,6 +250,20 @@ export const AudiosPage = () => {
             pageSize={pageSize}
             onPageSizeChange={handlePageSizeChange}
           />
+          
+          {/* Spacer to prevent content from being hidden behind the fixed player */}
+          {activeItem ? <div style={{ height: '160px' }} /> : null}
+
+          {activeItem ? (
+            <AudioPlayer
+              item={activeItem}
+              onPrevious={handlePrevious}
+              onNext={handleNext}
+              onEnded={handleAudioEnded}
+              showSubtitle={showSubtitle}
+              onToggleSubtitle={setShowSubtitle}
+            />
+          ) : null}
         </>
       ) : null}
     </section>
