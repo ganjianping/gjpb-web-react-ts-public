@@ -27,15 +27,21 @@ export const AudioPlayer = ({
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.pause()
-      setIsPlaying(false)
-      setCurrentTime(0)
+      const audio = audioRef.current
       
-      const playPromise = audioRef.current.play()
+      // Reset state
+      setCurrentTime(0)
+      setDuration(0)
+      
+      // With key={item.id}, we have a fresh element, so we don't need load()
+      // Just attempt to play
+      const playPromise = audio.play()
       if (playPromise !== undefined) {
-        playPromise
-          .then(() => setIsPlaying(true))
-          .catch((error) => console.error("Auto-play failed", error))
+        playPromise.catch((error) => {
+          if (error.name !== 'AbortError') {
+            console.error("Playback failed:", error)
+          }
+        })
       }
     }
   }, [item.id])
@@ -45,9 +51,13 @@ export const AudioPlayer = ({
       if (isPlaying) {
         audioRef.current.pause()
       } else {
-        audioRef.current.play()
+        const playPromise = audioRef.current.play()
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            console.error("Toggle play failed:", error)
+          })
+        }
       }
-      setIsPlaying(!isPlaying)
     }
   }
 
@@ -125,7 +135,9 @@ export const AudioPlayer = ({
             aria-label="Previous song"
             title="Previous song"
           >
-            ⏮
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+            </svg>
           </button>
           <button
             type="button"
@@ -133,7 +145,15 @@ export const AudioPlayer = ({
             onClick={togglePlay}
             aria-label={isPlaying ? 'Pause' : 'Play'}
           >
-            {isPlaying ? '⏸' : '▶'}
+            {isPlaying ? (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              </svg>
+            ) : (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            )}
           </button>
           <button
             type="button"
@@ -142,7 +162,9 @@ export const AudioPlayer = ({
             aria-label="Next song"
             title="Next song"
           >
-            ⏭
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+            </svg>
           </button>
         </div>
 
@@ -172,14 +194,19 @@ export const AudioPlayer = ({
       </div>
 
       <audio
+        key={item.id}
         ref={audioRef}
         src={item.url}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         onEnded={onEnded}
-        preload="metadata"
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        preload="auto"
       >
-        <track kind="captions" srcLang="en" src={activeCaptionsUrl ?? ''} />
+        {activeCaptionsUrl ? (
+          <track kind="captions" srcLang="en" src={activeCaptionsUrl} />
+        ) : null}
       </audio>
     </div>
   )
