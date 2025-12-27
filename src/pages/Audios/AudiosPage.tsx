@@ -252,82 +252,17 @@ export const AudiosPage = () => {
           />
           
           {/* Spacer to prevent content from being hidden behind the fixed player */}
-          {activeItem ? <div style={{ height: '120px' }} /> : null}
+          {activeItem ? <div style={{ height: '160px' }} /> : null}
 
           {activeItem ? (
-            <div className="audio-card__player-wrapper">
-              {showSubtitle && activeItem.subtitle ? (
-                <div className="audio-card__subtitle-container">
-                  <button
-                    type="button"
-                    className="audio-card__subtitle-close"
-                    onClick={() => setShowSubtitle(false)}
-                    aria-label="Close subtitles"
-                    title="Close subtitles"
-                  >
-                    ✕
-                  </button>
-                  <div
-                    className="audio-card__subtitle-content"
-                    dangerouslySetInnerHTML={{ __html: activeItem.subtitle }}
-                  />
-                </div>
-              ) : null}
-              <div className="audio-card__player-header">
-                <button
-                  type="button"
-                  className="audio-card__control-button"
-                  onClick={handlePrevious}
-                  aria-label="Previous song"
-                  title="Previous song"
-                >
-                  ⏮
-                </button>
-                <div className="audio-card__player-info">
-                  <span className="audio-card__player-title">
-                    {activeItem.title ?? activeItem.name ?? t('untitled.audio')}
-                  </span>
-                  {activeItem.artist && (
-                    <span className="audio-card__player-artist"> • {activeItem.artist}</span>
-                  )}
-                </div>
-                <button
-                  type="button"
-                  className="audio-card__control-button"
-                  onClick={handleNext}
-                  aria-label="Next song"
-                  title="Next song"
-                >
-                  ⏭
-                </button>
-              </div>
-              <div className="audio-card__player-controls">
-                <audio
-                  key={activeItem.id}
-                  className="audio-card__player"
-                  controls
-                  autoPlay
-                  preload="none"
-                  onEnded={handleAudioEnded}
-                >
-                  <source src={activeItem.url} />
-                  {/* include a captions track element (src may be empty if not available) */}
-                  <track kind="captions" srcLang="en" src={activeCaptionsUrl ?? ''} />
-                </audio>
-                {activeItem.subtitle ? (
-                  <button
-                    type="button"
-                    className="audio-card__control-button"
-                    onClick={() => setShowSubtitle((prev) => !prev)}
-                    aria-pressed={showSubtitle}
-                    aria-label={showSubtitle ? 'Hide subtitles' : 'Show subtitles'}
-                    title={showSubtitle ? 'Hide subtitles' : 'Show subtitles'}
-                  >
-                    CC
-                  </button>
-                ) : null}
-              </div>
-            </div>
+            <AudioPlayer
+              item={activeItem}
+              onPrevious={handlePrevious}
+              onNext={handleNext}
+              onEnded={handleAudioEnded}
+              showSubtitle={showSubtitle}
+              onToggleSubtitle={setShowSubtitle}
+            />
           ) : null}
         </>
       ) : null}
