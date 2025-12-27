@@ -141,7 +141,7 @@ export const WebsitesPage = () => {
     setCurrentPage(1)
   }
 
-  const skeletonItems = Array.from({ length: 8 }, (_, index) => index)
+  const skeletonItems = Array.from({ length: 30 }, (_, index) => index)
 
   return (
     <section className="page">
