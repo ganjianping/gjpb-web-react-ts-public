@@ -42,6 +42,16 @@ export interface Website {
   updatedAt: string
 }
 
+export interface Question {
+  id: string
+  question: string
+  answer: string
+  tags: string
+  lang: 'EN' | 'ZH'
+  displayOrder: number
+  updatedAt: string
+}
+
 export interface ArticleSummary {
   id: string
   title: string

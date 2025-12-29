@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import { useUIContext } from './contexts/UIContext'
 import websitesTranslations from '../pages/Websites/i18n'
+import questionsTranslations from '../pages/Questions/i18n'
 import articlesTranslations from '../pages/Articles/i18n'
 import imagesTranslations from '../pages/Images/i18n'
 import audiosTranslations from '../pages/Audios/i18n'
@@ -39,6 +40,7 @@ const baseTranslations: Translations = {
   // Common card actions
   'website.visit': { EN: 'Visit', ZH: '访问' },
   'common.source': { EN: 'Source', ZH: '来源' },
+  'common.close': { EN: 'Close', ZH: '关闭' },
   // Pagination
   'pagination.ariaLabel': { EN: 'Pagination', ZH: '分页' },
   'pagination.prev': { EN: 'Prev', ZH: '上一页' },
@@ -51,6 +53,7 @@ const baseTranslations: Translations = {
 const translations: Translations = {
   ...baseTranslations,
   ...websitesTranslations,
+  ...questionsTranslations,
   ...articlesTranslations,
   ...imagesTranslations,
   ...audiosTranslations,

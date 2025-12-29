@@ -6,6 +6,7 @@ import type {
   ArticleSummary,
   FileItem,
   MediaItem,
+  Question,
   Website,
 } from './types'
 
@@ -70,6 +71,15 @@ export const getWebsites = (
 ) =>
   // Add optional search and tag query params so callers can request server-side filtering
   fetchJson<ApiPagedResponse<Website>>(createUrl('cms/websites', { page, size, search, tag, lang }))
+
+export const getQuestions = (
+  page = 0,
+  size = 60,
+  search?: string,
+  tag?: string,
+  lang?: string,
+) =>
+  fetchJson<ApiPagedResponse<Question>>(createUrl('cms/questions', { page, size, search, tag, lang }))
 
 export const getArticles = (page = 0, size = 60, lang?: string) =>
   fetchJson<ApiPagedResponse<ArticleSummary>>(createUrl('cms/articles', { page, size, lang }))

@@ -9,6 +9,7 @@ import { useUIContext } from '../../shared/contexts/UIContext'
 
 const sectionLinks = [
   { path: '/public/websites', label: { EN: 'Websites', ZH: '网站' }, tagsKey: 'website_tags' },
+  { path: '/public/questions', label: { EN: 'Questions', ZH: '问答' }, tagsKey: 'question_tags' },
   { path: '/public/articles', label: { EN: 'Articles', ZH: '文章' }, tagsKey: 'article_tags' },
   { path: '/public/images', label: { EN: 'Images', ZH: '图片' }, tagsKey: 'image_tags' },
   { path: '/public/audios', label: { EN: 'Audios', ZH: '音频' }, tagsKey: 'audio_tags' },
@@ -50,6 +51,14 @@ export const PublicLayout = () => {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
             <circle cx="12" cy="12" r="10" />
             <path d="M2 12h20M12 2a15 15 0 010 20" />
+          </svg>
+        )
+      case 'question_tags':
+        return (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
           </svg>
         )
       case 'article_tags':
