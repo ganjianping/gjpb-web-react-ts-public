@@ -30,7 +30,6 @@ export const QuestionCard = ({ question }: QuestionCardProps) => {
   const answerRef = useRef<HTMLDivElement>(null)
 
   const tags = useMemo(() => getUniqueTags(question.tags ?? ''), [question.tags])
-  const tagsLabel = tags.join(', ')
 
   const toggleExpanded = () => {
     setExpanded(!expanded)
@@ -85,18 +84,18 @@ export const QuestionCard = ({ question }: QuestionCardProps) => {
     >
       <div className="question-card__header">
         <div className="question-card__content">
+          {tags.length > 0 && (
+            <div className="question-card__tags">
+              {tags.map((tag) => (
+                <span key={tag} className="question-tag">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
           <h3 className="question-card__question">
             {question.question}
           </h3>
-          {tagsLabel ? (
-            <span
-              className="question-card__tags"
-              aria-label={`${t('questions.tags_label')}: ${tagsLabel}`}
-              title={tagsLabel}
-            >
-              {tagsLabel}
-            </span>
-          ) : null}
         </div>
         <div className={`question-card__icon ${expanded ? 'question-card__icon--expanded' : ''}`}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

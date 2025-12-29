@@ -147,13 +147,7 @@ export const QuestionsPage = () => {
     setCurrentPage(1)
   }
 
-  if (loading && items.length === 0) {
-    return <div className="loading-state">{t('loading')}</div>
-  }
-
-  if (error) {
-    return <div className="error-state">{error}</div>
-  }
+  const skeletonItems = Array.from({ length: 5 }, (_, index) => index)
 
   return (
     <div className="page-container">
@@ -169,28 +163,53 @@ export const QuestionsPage = () => {
         namespace="questions"
       />
 
-      {displayItems.length > 0 ? (
+      {loading ? (
         <div className="grid grid--questions">
-          {displayItems.map((question) => (
-            <QuestionCard key={question.id} question={question} />
+          {skeletonItems.map((item) => (
+            <div key={item} className="card question-card question-card--skeleton" aria-hidden="true">
+              <div className="question-card__header">
+                <div className="skeleton skeleton--line skeleton--line-lg" style={{ width: '70%' }} />
+              </div>
+              <div className="question-card__tags" style={{ display: 'flex', gap: '0.5rem' }}>
+                <div className="skeleton skeleton--pill-sm" style={{ width: '60px' }} />
+                <div className="skeleton skeleton--pill-sm" style={{ width: '80px' }} />
+              </div>
+            </div>
           ))}
         </div>
-      ) : (
-        <div className="empty-state">
-          <p>{t('questions.empty')}</p>
-        </div>
-      )}
+      ) : null}
 
-      {totalPages > 1 && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-          totalElements={totalElements}
-          pageSize={pageSize}
-          onPageSizeChange={handlePageSizeChange}
-        />
-      )}
+      {!loading && error ? (
+        <div className="status status--error">
+          <span>{t('failed_to_load')}</span>
+          <span className="status__message">{error}</span>
+        </div>
+      ) : null}
+
+      {!loading && !error ? (
+        <>
+          {displayItems.length > 0 ? (
+            <div className="grid grid--questions">
+              {displayItems.map((question) => (
+                <QuestionCard key={question.id} question={question} />
+              ))}
+            </div>
+          ) : (
+            <div className="status status--empty">{t('questions.empty')}</div>
+          )}
+
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              totalElements={totalElements}
+              pageSize={pageSize}
+              onPageSizeChange={handlePageSizeChange}
+            />
+          )}
+        </>
+      ) : null}
     </div>
   )
 }
