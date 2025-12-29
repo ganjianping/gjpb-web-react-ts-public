@@ -123,13 +123,14 @@ export const QuestionsPage = () => {
     setCurrentPage(1)
   }
 
-  const handleSortChange = (order: string) => {
-    setSortOrder(order as SortOrder)
-  }
-
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handlePageSizeChange = (newPageSize: number) => {
+    setPageSize(newPageSize)
+    setCurrentPage(1)
   }
 
   if (loading && items.length === 0) {
@@ -171,6 +172,9 @@ export const QuestionsPage = () => {
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
+          totalElements={totalElements}
+          pageSize={pageSize}
+          onPageSizeChange={handlePageSizeChange}
         />
       )}
     </div>
