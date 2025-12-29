@@ -53,24 +53,39 @@ export const ArticlesPage = () => {
   const failedLabel = t('failed_to_load')
 
   useEffect(() => {
+    const controller = new AbortController()
+    const signal = controller.signal
+
     const fetchData = async () => {
       setLoading(true)
       setError(null)
 
       try {
-        const response = await getArticles(currentPage - 1, pageSize, language)
+        const response = await getArticles(currentPage - 1, pageSize, language, signal)
         setItems(response.data.content)
         setTotalElements(response.data.totalElements)
         setTotalPages(response.data.totalPages)
       } catch (err) {
+        if (err instanceof Error && err.name === 'AbortError') {
+          return
+        }
         const message = err instanceof Error ? err.message : failedLabel
         setError(message)
       } finally {
-        setLoading(false)
+        if (!signal.aborted) {
+          setLoading(false)
+        }
       }
     }
 
-    void fetchData()
+    const timeoutId = setTimeout(() => {
+      void fetchData()
+    }, 10)
+
+    return () => {
+      clearTimeout(timeoutId)
+      controller.abort()
+    }
   }, [failedLabel, pageSize, currentPage, language])
 
   useEffect(() => {

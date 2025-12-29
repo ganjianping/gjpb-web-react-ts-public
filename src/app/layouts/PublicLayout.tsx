@@ -9,7 +9,7 @@ import { useUIContext } from '../../shared/contexts/UIContext'
 
 const sectionLinks = [
   { path: '/public/websites', label: { EN: 'Websites', ZH: '网站' }, tagsKey: 'website_tags' },
-  { path: '/public/questions', label: { EN: 'Questions', ZH: '问答' }, tagsKey: 'question_tags' },
+  { path: '/public/questions', label: { EN: 'Q&A', ZH: '问答' }, tagsKey: 'question_tags' },
   { path: '/public/articles', label: { EN: 'Articles', ZH: '文章' }, tagsKey: 'article_tags' },
   { path: '/public/images', label: { EN: 'Images', ZH: '图片' }, tagsKey: 'image_tags' },
   { path: '/public/audios', label: { EN: 'Audios', ZH: '音频' }, tagsKey: 'audio_tags' },

@@ -53,24 +53,38 @@ export const FilesPage = () => {
   const failedLabel = t('failed_to_load')
 
   useEffect(() => {
+    const controller = new AbortController()
     const fetchData = async () => {
       setLoading(true)
       setError(null)
 
       try {
-        const response = await getFiles(currentPage - 1, pageSize, language)
+        const response = await getFiles(currentPage - 1, pageSize, language, controller.signal)
         setItems(response.data.content)
         setTotalElements(response.data.totalElements)
         setTotalPages(response.data.totalPages)
       } catch (err) {
+        if (err instanceof Error && err.name === 'AbortError') {
+          return
+        }
         const message = err instanceof Error ? err.message : failedLabel
         setError(message)
       } finally {
-        setLoading(false)
+        if (!controller.signal.aborted) {
+          setLoading(false)
+        }
       }
     }
 
-    void fetchData()
+    // Debounce the request to avoid double-fetching in React StrictMode
+    const timeoutId = setTimeout(() => {
+      void fetchData()
+    }, 10)
+
+    return () => {
+      clearTimeout(timeoutId)
+      controller.abort()
+    }
   }, [failedLabel, currentPage, pageSize, language])
 
   useEffect(() => {

@@ -1,6 +1,4 @@
 const questionsTranslations = {
-  'questions.title': { EN: 'Questions', ZH: '常见问题' },
-  'questions.subtitle': { EN: 'Frequently asked questions and answers.', ZH: '常见问题与解答。' },
   'questions.empty': { EN: 'No questions match your search.', ZH: '未找到匹配的问题。' },
   'questions.result_count': { EN: '{count} questions', ZH: '{count} 个问题' },
   'questions.sort_label': { EN: 'Sort', ZH: '排序' },

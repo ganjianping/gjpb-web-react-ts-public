@@ -68,9 +68,10 @@ export const getWebsites = (
   search?: string,
   tag?: string,
   lang?: string,
+  signal?: AbortSignal,
 ) =>
   // Add optional search and tag query params so callers can request server-side filtering
-  fetchJson<ApiPagedResponse<Website>>(createUrl('cms/websites', { page, size, search, tag, lang }))
+  fetchJson<ApiPagedResponse<Website>>(createUrl('cms/websites', { page, size, search, tag, lang }), { signal })
 
 export const getQuestions = (
   page = 0,
@@ -78,23 +79,24 @@ export const getQuestions = (
   search?: string,
   tag?: string,
   lang?: string,
+  signal?: AbortSignal,
 ) =>
-  fetchJson<ApiPagedResponse<Question>>(createUrl('cms/questions', { page, size, search, tag, lang }))
+  fetchJson<ApiPagedResponse<Question>>(createUrl('cms/questions', { page, size, search, tag, lang }), { signal })
 
-export const getArticles = (page = 0, size = 60, lang?: string) =>
-  fetchJson<ApiPagedResponse<ArticleSummary>>(createUrl('cms/articles', { page, size, lang }))
+export const getArticles = (page = 0, size = 60, lang?: string, signal?: AbortSignal) =>
+  fetchJson<ApiPagedResponse<ArticleSummary>>(createUrl('cms/articles', { page, size, lang }), { signal })
 
 export const getArticleById = (id: string) =>
   fetchJson<ApiListResponse<ArticleDetail>>(createUrl(`cms/articles/${id}`))
 
-export const getImages = (page = 0, size = 60, lang?: string) =>
-  fetchJson<ApiPagedResponse<MediaItem>>(createUrl('cms/images', { page, size, lang }))
+export const getImages = (page = 0, size = 60, lang?: string, signal?: AbortSignal) =>
+  fetchJson<ApiPagedResponse<MediaItem>>(createUrl('cms/images', { page, size, lang }), { signal })
 
-export const getVideos = (page = 0, size = 60, lang?: string) =>
-  fetchJson<ApiPagedResponse<MediaItem>>(createUrl('cms/videos', { page, size, lang }))
+export const getVideos = (page = 0, size = 60, lang?: string, signal?: AbortSignal) =>
+  fetchJson<ApiPagedResponse<MediaItem>>(createUrl('cms/videos', { page, size, lang }), { signal })
 
-export const getAudios = (page = 0, size = 60, lang?: string) =>
-  fetchJson<ApiPagedResponse<MediaItem>>(createUrl('cms/audios', { page, size, lang }))
+export const getAudios = (page = 0, size = 60, lang?: string, signal?: AbortSignal) =>
+  fetchJson<ApiPagedResponse<MediaItem>>(createUrl('cms/audios', { page, size, lang }), { signal })
 
-export const getFiles = (page = 0, size = 60, lang?: string) =>
-  fetchJson<ApiPagedResponse<FileItem>>(createUrl('cms/files', { page, size, lang }))
+export const getFiles = (page = 0, size = 60, lang?: string, signal?: AbortSignal) =>
+  fetchJson<ApiPagedResponse<FileItem>>(createUrl('cms/files', { page, size, lang }), { signal })
