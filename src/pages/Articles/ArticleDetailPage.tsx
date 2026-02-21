@@ -53,7 +53,72 @@ export const ArticleDetailPage = () => {
     // Run on next tick to ensure DOM is updated.
     requestAnimationFrame(() => {
       try {
-        hljs.highlightAll()
+        // Find all code blocks that haven't been highlighted yet
+        const codeBlocks = document.querySelectorAll('.article-detail__body pre code:not(.hljs)')
+        codeBlocks.forEach((block) => {
+          if (block instanceof HTMLElement) {
+            hljs.highlightElement(block)
+          }
+        })
+
+        // Add copy buttons to code blocks
+        const preBlocks = document.querySelectorAll('.article-detail__body pre:not(.code-block-with-copy)')
+        preBlocks.forEach((pre) => {
+          if (pre instanceof HTMLElement) {
+            // Mark this pre block as processed
+            pre.classList.add('code-block-with-copy')
+            
+            // Create wrapper div
+            const wrapper = document.createElement('div')
+            wrapper.className = 'code-block-wrapper'
+            
+            // Create copy button
+            const copyButton = document.createElement('button')
+            copyButton.className = 'code-copy-button'
+            copyButton.innerHTML = `
+              <svg class="copy-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="4" y="4" width="8" height="10" rx="1"/>
+                <path d="M8 4V2a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-2"/>
+              </svg>
+              <span class="copy-text">Copy</span>
+              <span class="copied-text" style="display: none;">Copied!</span>
+            `
+            copyButton.setAttribute('aria-label', 'Copy code')
+            
+            // Add click handler
+            copyButton.addEventListener('click', async () => {
+              const codeElement = pre.querySelector('code')
+              if (codeElement) {
+                try {
+                  await navigator.clipboard.writeText(codeElement.textContent || '')
+                  
+                  // Show "Copied!" feedback
+                  const copyText = copyButton.querySelector('.copy-text')
+                  const copiedText = copyButton.querySelector('.copied-text')
+                  if (copyText && copiedText) {
+                    copyText.setAttribute('style', 'display: none;')
+                    copiedText.setAttribute('style', 'display: inline;')
+                    copyButton.classList.add('copied')
+                    
+                    setTimeout(() => {
+                      copyText.setAttribute('style', 'display: inline;')
+                      copiedText.setAttribute('style', 'display: none;')
+                      copyButton.classList.remove('copied')
+                    }, 2000)
+                  }
+                } catch (err) {
+                  // eslint-disable-next-line no-console
+                  console.error('Failed to copy code:', err)
+                }
+              }
+            })
+            
+            // Wrap the pre element and add copy button
+            pre.parentNode?.insertBefore(wrapper, pre)
+            wrapper.appendChild(pre)
+            wrapper.appendChild(copyButton)
+          }
+        })
       } catch (e) {
         // swallow highlighting errors to avoid breaking the page
         // (e.g., unknown language or malformed nodes)
