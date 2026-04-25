@@ -3,16 +3,16 @@
   become: yes
       
   tasks:
-    - name: Create www.ganjianping.com directory
+    - name: Create /var/www/gjpb/blog directory
       file:
-        path: /we/var/www.ganjianping.com  # Change this path to your desired directory
+        path: /var/www/gjpb/blog  # Change this path to your desired directory
         state: directory
         mode: '0755'
 
-    - name: Upload build to /var/www/www.ganjianping.com
+    - name: Upload build to /var/www/gjpb/blog
       copy:
         src: "../../../dist/"
-        dest: "/var/www/www.ganjianping.com"
+        dest: "/var/www/gjpb/blog"
         mode: 0755
       notify: Restart Nginx
 

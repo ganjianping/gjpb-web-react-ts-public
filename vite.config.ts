@@ -2,14 +2,14 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  base: '/',
+  base: '/blog/',
   plugins: [react()],
   server: {
     port: 3001,
     host: true,
     cors: true,
     proxy: {
-      '/blog': {
+      '/blog-api': {
         target: 'https://www.ganjianping.com',
         // target: 'http://localhost:8082',
         changeOrigin: true,

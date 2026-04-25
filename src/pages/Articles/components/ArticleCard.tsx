@@ -21,7 +21,10 @@ export const ArticleCard = ({ article }: ArticleCardProps) => {
         ) : null}
         <div className="article-card__body">
           <h3 className="article-card__title">{article.title}</h3>
-          <p className="article-card__summary">{article.tags}</p>
+          {article.summary && (
+            <p className="article-card__summary">{article.summary}</p>
+          )}
+          
         </div>
       </Link>
     </article>
